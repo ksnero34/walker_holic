@@ -11,7 +11,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CupertinoApp(
-      // Remove the debug banner
+      // Remove the debug
       debugShowCheckedModeBanner: false,
       title: '부산폴짝',
       home: MyHomePage(),
