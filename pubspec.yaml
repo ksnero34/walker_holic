@@ -50,6 +50,9 @@ flutter:
   assets:
      - assets/img_soo.jpg
      - assets/loadings.gif
+     - assets/marker_simin.png
+     - assets/marker_unitedn.png
+     - assets/marker_gwang.png
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see
