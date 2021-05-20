@@ -2,7 +2,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
-import 'dart:ui';
+import 'package:flutter/services.dart';
+import 'dart:typed_data';
+import 'dart:ui' as ui;
 //import 'main.dart';
 
 class MyMaps extends StatefulWidget {
@@ -27,6 +29,22 @@ class _MyMaps extends State<MyMaps> {
 
   Set<Marker> _markers = {};
 
+  Future<Uint8List> getBytesFromAsset(String path, int width) async {
+    ByteData data = await rootBundle.load(path);
+    ui.Codec codec = await ui.instantiateImageCodec(data.buffer.asUint8List(),
+        targetWidth: width);
+    ui.FrameInfo fi = await codec.getNextFrame();
+    return (await fi.image.toByteData(format: ui.ImageByteFormat.png))
+        .buffer
+        .asUint8List();
+  }
+
+  Future<BitmapDescriptor> getBitmapDescriptorFromAssetBytes(
+      String path, int width) async {
+    final Uint8List imageData = await getBytesFromAsset(path, width);
+    return BitmapDescriptor.fromBytes(imageData);
+  }
+
   @override
   void initState() {
     // TODO: implement initState
@@ -35,12 +53,12 @@ class _MyMaps extends State<MyMaps> {
   }
 
   void seticon_img() async {
-    simin_icon = await BitmapDescriptor.fromAssetImage(
-        ImageConfiguration(), 'assets/marker_simin.png');
-    unitedn_icon = await BitmapDescriptor.fromAssetImage(
-        ImageConfiguration(), 'assets/marker_unitedn.png');
-    gwang_icon = await BitmapDescriptor.fromAssetImage(
-        ImageConfiguration(), 'assets/marker_gwang.png');
+    simin_icon =
+        await getBitmapDescriptorFromAssetBytes("assets/marker_simin.png", 400);
+    unitedn_icon = await getBitmapDescriptorFromAssetBytes(
+        "assets/marker_unitedn.png", 400);
+    gwang_icon =
+        await getBitmapDescriptorFromAssetBytes("assets/marker_gwang.png", 400);
   }
 
   void _onMapCreated(GoogleMapController _cntlr) {
@@ -63,11 +81,9 @@ class _MyMaps extends State<MyMaps> {
     });
     _controller = _cntlr;
     _location.onLocationChanged.listen((l) {
-      _controller.animateCamera(
-        CameraUpdate.newCameraPosition(
-          CameraPosition(target: LatLng(l.latitude, l.longitude), zoom: 15),
-        ),
-      );
+      _controller.animateCamera(CameraUpdate.newCameraPosition(
+        CameraPosition(target: LatLng(l.latitude, l.longitude), zoom: 15),
+      ));
     });
   }
 
