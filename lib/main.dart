@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
-//import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:walkerholic/badge.dart';
 import 'package:walkerholic/camera.dart';
 import 'package:walkerholic/maps.dart';
+
+import 'home.dart';
 
 void main() => runApp(MyApp());
 
@@ -26,7 +27,15 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  List<Widget> _pages = [camera(), MyMaps(), badge()];
+  List<Widget> _pages = [camera(), home(), badge(), MyMaps()];
+
+  void mappressed() {
+    mytabbuilder(context, 4);
+  }
+
+  Widget mytabbuilder(BuildContext ctx, int index) {
+    return _pages[index];
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -47,9 +56,11 @@ class _MyHomePageState extends State<MyHomePage> {
               BottomNavigationBarItem(icon: Icon(Icons.location_searching))
             ],
           ),
-          tabBuilder: (BuildContext context, index) {
-            return _pages[index];
-          }),
+          tabBuilder: mytabbuilder),
     );
   }
 }
+
+//tabBuilder: (BuildContext context, index) {
+//          return _pages[index];
+//      }

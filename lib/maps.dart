@@ -5,6 +5,7 @@ import 'package:location/location.dart';
 import 'package:flutter/services.dart';
 import 'dart:typed_data';
 import 'dart:ui' as ui;
+import 'main.dart';
 //import 'main.dart';
 
 class MyMaps extends StatefulWidget {
