@@ -1,12 +1,19 @@
+import 'dart:async';
 import 'dart:typed_data';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:location/location.dart';
+import 'package:location/location.dart' as loc;
+import 'package:provider/provider.dart';
+import 'package:walkerholic/location/getnearest.dart';
+import 'location/locationservice.dart';
 import 'dart:ui' as ui;
-import 'main.dart';
+import 'location/user_location.dart';
+import 'location/getnearest.dart';
+//import 'package:geocoding/geocoding.dart';
+//import 'main.dart';
 //import 'main.dart';
 
 class MyMaps extends StatefulWidget {
@@ -16,14 +23,15 @@ class MyMaps extends StatefulWidget {
 
 class _MyMaps extends State<MyMaps> {
   GoogleMapController mapController;
-
   LatLng _initialcameraposition = LatLng(35.133134, 129.101699);
   LatLng simin_l = LatLng(35.168693, 129.057662);
   LatLng unitedn_l = LatLng(35.127479, 129.098139);
   LatLng gwang_l = LatLng(35.140535, 129.117227);
+  String nearestwalk;
+  getnearestsite getnear = new getnearestsite();
 
   GoogleMapController _controller;
-  Location _location = Location();
+  loc.Location _location = loc.Location();
 
   BitmapDescriptor simin_icon;
   BitmapDescriptor unitedn_icon;
@@ -32,10 +40,11 @@ class _MyMaps extends State<MyMaps> {
   Set<Marker> _markers = {};
 
   @override
-  void initState() {
+  Future<void> initState() {
     // TODO: implement initState
     super.initState();
     seticon_img();
+    nearestwalk = '위치를 받아오는 중..';
     //print('initstateddd');
   }
 
@@ -59,9 +68,9 @@ class _MyMaps extends State<MyMaps> {
     simin_icon = await BitmapDescriptor.fromAssetImage(
         ImageConfiguration(devicePixelRatio: 0.2), 'assets/marker_simin.png');
     unitedn_icon = await BitmapDescriptor.fromAssetImage(
-        ImageConfiguration(devicePixelRatio: 0.2), 'assets/marker_simin.png');
+        ImageConfiguration(devicePixelRatio: 0.2), 'assets/marker_unitedn.png');
     gwang_icon = await BitmapDescriptor.fromAssetImage(
-        ImageConfiguration(devicePixelRatio: 0.2), 'assets/marker_simin.png');
+        ImageConfiguration(devicePixelRatio: 0.2), 'assets/marker_gwang.png');
   }
 
   void _onMapCreated(GoogleMapController _cntlr) {
@@ -92,12 +101,18 @@ class _MyMaps extends State<MyMaps> {
 
   @override
   Widget build(BuildContext context) {
+    var userLocation = Provider.of<UserLocation>(context);
     final double statusBarHeight =
         MediaQuery.of(context).padding.top; //기기의 상태창 크기
     final double statusHeight = (MediaQuery.of(context).size.height -
         statusBarHeight -
         MediaQuery.of(context).padding.bottom); // 기기의 화면크기
-
+    new Timer(Duration(seconds: 5), () {
+      setState(() async {
+        nearestwalk = await getnear.getnearest(
+            userLocation.latitude, userLocation.longitude);
+      });
+    });
     return MaterialApp(
       home: Scaffold(
         body: Column(
@@ -105,6 +120,13 @@ class _MyMaps extends State<MyMaps> {
             Padding(padding: EdgeInsets.only(top: statusBarHeight)),
             SizedBox(
               height: statusHeight * 0.05,
+              child: Row(
+                children: [
+                  Text('현재 상태 : '),
+                  Text('                '),
+                  Text('가장 가까운 산책지 : $nearestwalk'),
+                ],
+              ),
             ),
             Container(
               height: statusHeight * 0.65,
