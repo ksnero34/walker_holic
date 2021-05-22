@@ -1,6 +1,13 @@
 import 'dart:async';
 import 'package:location/location.dart';
-import 'package:walkerholic/location/user_location.dart';
+//import 'package:walkerholic/location/user_location.dart';
+
+class UserLocation {
+  final double latitude;
+  final double longitude;
+
+  UserLocation({this.latitude, this.longitude});
+}
 
 class LocationService {
   UserLocation _currentLocation;

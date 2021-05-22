@@ -3,7 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:provider/provider.dart';
 import 'package:walkerholic/badge.dart';
 import 'package:walkerholic/camera.dart';
-import 'package:walkerholic/location/user_location.dart';
+//import 'package:walkerholic/location/user_location.dart';
 import 'package:walkerholic/maps.dart';
 import 'package:location/location.dart';
 
@@ -17,7 +17,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return StreamProvider<UserLocation>(
       create: (context) => LocationService().locationStream,
-      //builder: (context) => LocationService().locationStream,
+      //      builder: (context) => LocationService().locationStream,
       child: CupertinoApp(
         // Remove the debug
         debugShowCheckedModeBanner: false,
