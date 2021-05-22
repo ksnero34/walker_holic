@@ -4,15 +4,27 @@ import 'package:provider/provider.dart';
 import 'package:walkerholic/badge.dart';
 import 'package:walkerholic/camera.dart';
 //import 'package:walkerholic/location/user_location.dart';
-import 'package:walkerholic/maps.dart';
-import 'package:location/location.dart';
+import 'package:background_location/background_location.dart';
 
 import 'home.dart';
-import 'location/location.dart';
+import 'location/locationservice.dart';
+import 'location/user_location.dart';
+
+LatLng userlocation_global;
 
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
+  BackgroundLocation.setAndroidNotification(
+	title: "Notification title",
+        message: "Notification message",
+        icon: "@mipmap/ic_launcher",
+);
+BackgroundLocation.setAndroidConfiguration(1000);
+BackgroundLocation.startLocationService();
+BackgroundLocation.getLocationUpdates((location) {
+  print(location);
+});
   @override
   Widget build(BuildContext context) {
     return StreamProvider<UserLocation>(
@@ -45,7 +57,6 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    var userLocation = Provider.of<UserLocation>(context);
     final double statusBarHeight =
         MediaQuery.of(context).padding.top; //기기의 상태창 크기
     final double statusHeight = (MediaQuery.of(context).size.height -
