@@ -18,6 +18,13 @@ class _homeState extends State<home> {
         MediaQuery.of(context).padding.bottom); // 기기의 화면크기
     final double statuswidth = MediaQuery.of(context).size.width;
 
+    navigatetomap(BuildContext ctx) async {
+      await Navigator.push(
+        ctx,
+        MaterialPageRoute(builder: (ctx) => MyMaps()),
+      );
+    }
+
     return Column(mainAxisAlignment: MainAxisAlignment.center, children: [
       //Padding(padding: EdgeInsets.only(top: statusBarHeight)),
       //SizedBox(
@@ -28,7 +35,7 @@ class _homeState extends State<home> {
         onTap: () {
           print('pressedddd');
           setState(() {
-            MyMaps();
+            navigatetomap(context);
           });
         },
         child: Container(

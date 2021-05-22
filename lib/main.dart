@@ -1,37 +1,43 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:provider/provider.dart';
 import 'package:walkerholic/badge.dart';
 import 'package:walkerholic/camera.dart';
+import 'package:walkerholic/location/user_location.dart';
 import 'package:walkerholic/maps.dart';
+import 'package:location/location.dart';
 
 import 'home.dart';
+import 'location/location.dart';
 
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return CupertinoApp(
-      // Remove the debug
-      debugShowCheckedModeBanner: false,
-      title: '부산폴짝',
-      home: MyHomePage(),
+    return StreamProvider<UserLocation>(
+      create: (context) => LocationService().locationStream,
+      //builder: (context) => LocationService().locationStream,
+      child: CupertinoApp(
+        // Remove the debug
+        debugShowCheckedModeBanner: false,
+        title: '부산폴짝',
+        home: MyHomePage(),
+      ),
     );
   }
 }
 
 // Main Screen
 class MyHomePage extends StatefulWidget {
+  //const MyHomePage({Key key}) : super(key: key);
+
   @override
   _MyHomePageState createState() => _MyHomePageState();
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  List<Widget> _pages = [camera(), home(), badge(), MyMaps()];
-
-  void mappressed() {
-    mytabbuilder(context, 4);
-  }
+  List<Widget> _pages = [camera(), home(), badge()];
 
   Widget mytabbuilder(BuildContext ctx, int index) {
     return _pages[index];
@@ -39,6 +45,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
+    var userLocation = Provider.of<UserLocation>(context);
     final double statusBarHeight =
         MediaQuery.of(context).padding.top; //기기의 상태창 크기
     final double statusHeight = (MediaQuery.of(context).size.height -
