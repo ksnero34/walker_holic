@@ -40,4 +40,8 @@ class getnearestsite {
     else
       site = '광안리';
   }
+
+  String getsite() {
+    return site;
+  }
 }

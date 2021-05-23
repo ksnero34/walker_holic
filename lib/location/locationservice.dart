@@ -1,7 +1,7 @@
 import 'dart:async';
-import 'package:location/location.dart';
+//import 'package:location/location.dart';
 import 'package:walkerholic/location/user_location.dart';
-
+/*
 class LocationService {
   UserLocation _currentLocation;
   Location locations = Location();
@@ -40,3 +40,4 @@ class LocationService {
     return _currentLocation;
   }
 }
+*/

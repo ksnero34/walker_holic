@@ -1,11 +1,12 @@
 import 'dart:async';
 import 'dart:typed_data';
 
+import 'package:background_location/background_location.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:location/location.dart' as loc;
+//import 'package:location/location.dart' as loc;
 import 'package:provider/provider.dart';
 import 'package:walkerholic/location/getnearest.dart';
 import 'location/locationservice.dart';
@@ -30,7 +31,7 @@ class _MyMaps extends State<MyMaps> {
   LatLng gwang_l = LatLng(35.140535, 129.117227);
 
   GoogleMapController _controller;
-  loc.Location _location = loc.Location();
+  //loc.Location _location = loc.Location();
 
   BitmapDescriptor simin_icon;
   BitmapDescriptor unitedn_icon;
@@ -38,7 +39,7 @@ class _MyMaps extends State<MyMaps> {
 
   String site = '';
 
-  getnearestsite nearestsite;
+  getnearestsite nearestsite = new getnearestsite();
 
   Set<Marker> _markers = {};
 
@@ -94,11 +95,11 @@ class _MyMaps extends State<MyMaps> {
           infoWindow: InfoWindow(title: '광안리', snippet: '눈누난나')));
     });
     _controller = _cntlr;
-    _location.onLocationChanged.listen((l) {
+    /*_location.onLocationChanged.listen((l) {
       _controller.animateCamera(CameraUpdate.newCameraPosition(
         CameraPosition(target: LatLng(l.latitude, l.longitude), zoom: 15),
       ));
-    });
+    });*/
   }
 
   @override
@@ -110,11 +111,18 @@ class _MyMaps extends State<MyMaps> {
         statusBarHeight -
         MediaQuery.of(context).padding.bottom); // 기기의 화면크기
 
+    //BackgroundLocation.startLocationService();
+    BackgroundLocation.getLocationUpdates((_location) async {
+      userlocation_global = LatLng(_location.latitude, _location.longitude);
+      //print(nearestsite.getsite());
+    });
     const myduration = const Duration(seconds: 5);
     new Timer(myduration, () {
-      print('사용자 위치 글로벌');
-      print(userlocation_global.latitude);
-      //site = nearestlocation_global.site;
+      nearestsite.setnearest(userlocation_global);
+      setState(() {
+        site = nearestsite.getsite();
+        //print(site);
+      });
     });
     return MaterialApp(
       home: Scaffold(

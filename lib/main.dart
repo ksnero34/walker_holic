@@ -51,11 +51,10 @@ class _MyHomePageState extends State<MyHomePage> {
     super.initState();
     BackgroundLocation.startLocationService();
 
-    BackgroundLocation.getLocationUpdates((location) async {
-      userlocation_global = LatLng(location.latitude, location.longitude);
-      nearestlocation_global.setnearest(userlocation_global);
-      print('root단 호출, 위치');
-      print(nearestlocation.site);
+    BackgroundLocation.getLocationUpdates((_location) async {
+      userlocation_global = LatLng(_location.latitude, _location.longitude);
+      //nearestlocation_global.setnearest(userlocation_global);
+
       //compute(nearestlocation_global.setnearest, userlocation_global);
       //print(userlocation_global.longitude);
     });
