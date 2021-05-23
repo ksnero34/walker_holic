@@ -12,6 +12,7 @@ import 'location/locationservice.dart';
 import 'dart:ui' as ui;
 import 'location/user_location.dart';
 import 'location/getnearest.dart';
+import 'main.dart';
 //import 'package:geocoding/geocoding.dart';
 //import 'main.dart';
 //import 'main.dart';
@@ -27,8 +28,6 @@ class _MyMaps extends State<MyMaps> {
   LatLng simin_l = LatLng(35.168693, 129.057662);
   LatLng unitedn_l = LatLng(35.127479, 129.098139);
   LatLng gwang_l = LatLng(35.140535, 129.117227);
-  String nearestwalk;
-  getnearestsite getnear = new getnearestsite();
 
   GoogleMapController _controller;
   loc.Location _location = loc.Location();
@@ -37,6 +36,10 @@ class _MyMaps extends State<MyMaps> {
   BitmapDescriptor unitedn_icon;
   BitmapDescriptor gwang_icon;
 
+  String site = '';
+
+  getnearestsite nearestsite;
+
   Set<Marker> _markers = {};
 
   @override
@@ -44,7 +47,6 @@ class _MyMaps extends State<MyMaps> {
     // TODO: implement initState
     super.initState();
     seticon_img();
-    nearestwalk = '위치를 받아오는 중..';
     //print('initstateddd');
   }
 
@@ -101,17 +103,18 @@ class _MyMaps extends State<MyMaps> {
 
   @override
   Widget build(BuildContext context) {
-    var userLocation = Provider.of<UserLocation>(context);
+    //var userLocation = Provider.of<UserLocation>(context);
     final double statusBarHeight =
         MediaQuery.of(context).padding.top; //기기의 상태창 크기
     final double statusHeight = (MediaQuery.of(context).size.height -
         statusBarHeight -
         MediaQuery.of(context).padding.bottom); // 기기의 화면크기
-    new Timer(Duration(seconds: 5), () {
-      setState(() async {
-        nearestwalk = await getnear.getnearest(
-            userLocation.latitude, userLocation.longitude);
-      });
+
+    const myduration = const Duration(seconds: 5);
+    new Timer(myduration, () {
+      print('사용자 위치 글로벌');
+      print(userlocation_global.latitude);
+      //site = nearestlocation_global.site;
     });
     return MaterialApp(
       home: Scaffold(
@@ -124,7 +127,7 @@ class _MyMaps extends State<MyMaps> {
                 children: [
                   Text('현재 상태 : '),
                   Text('                '),
-                  Text('가장 가까운 산책지 : $nearestwalk'),
+                  Text('가장 가까운 산책지 : $site'),
                 ],
               ),
             ),

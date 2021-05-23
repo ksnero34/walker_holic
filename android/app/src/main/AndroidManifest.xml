@@ -3,6 +3,8 @@
   package="com.example.walkerholic">
   <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
   <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+  <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+  <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION"/> 
   <application android:label="walkerholic" tools:replace="android:label" android:icon="@mipmap/launcher_icon">
   
 

@@ -33,7 +33,7 @@ class _homeState extends State<home> {
 
       GestureDetector(
         onTap: () {
-          print('pressedddd');
+          //print('pressedddd');
           setState(() {
             navigatetomap(context);
           });
