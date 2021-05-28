@@ -1,4 +1,6 @@
 PODS:
+  - background_location (0.0.1):
+    - Flutter
   - Flutter (1.0.0)
   - geolocator (6.2.0):
     - Flutter
@@ -10,36 +12,40 @@ PODS:
   - GoogleMaps/Base (3.9.0)
   - GoogleMaps/Maps (3.9.0):
     - GoogleMaps/Base
-  - location (0.0.1):
+  - shared_preferences (0.0.1):
     - Flutter
 
 DEPENDENCIES:
+  - background_location (from `.symlinks/plugins/background_location/ios`)
   - Flutter (from `Flutter`)
   - geolocator (from `.symlinks/plugins/geolocator/ios`)
   - google_maps_flutter (from `.symlinks/plugins/google_maps_flutter/ios`)
-  - location (from `.symlinks/plugins/location/ios`)
+  - shared_preferences (from `.symlinks/plugins/shared_preferences/ios`)
 
 SPEC REPOS:
   trunk:
     - GoogleMaps
 
 EXTERNAL SOURCES:
+  background_location:
+    :path: ".symlinks/plugins/background_location/ios"
   Flutter:
     :path: Flutter
   geolocator:
     :path: ".symlinks/plugins/geolocator/ios"
   google_maps_flutter:
     :path: ".symlinks/plugins/google_maps_flutter/ios"
-  location:
-    :path: ".symlinks/plugins/location/ios"
+  shared_preferences:
+    :path: ".symlinks/plugins/shared_preferences/ios"
 
 SPEC CHECKSUMS:
+  background_location: 1b80c1fe3abd9912bca298618f6e365abf6f588f
   Flutter: 434fef37c0980e73bb6479ef766c45957d4b510c
   geolocator: f5e3de65e241caba7ce3e8a618803387bda73384
   google_maps_flutter: df4e7de95264aa0a2f11aac0fc7e313acb8ffc7e
   GoogleMaps: 4b5346bddfe6911bb89155d43c903020170523ac
-  location: 3a2eed4dd2fab25e7b7baf2a9efefe82b512d740
+  shared_preferences: af6bfa751691cdc24be3045c43ec037377ada40d
 
-PODFILE CHECKSUM: aafe91acc616949ddb318b77800a7f51bffa2a4c
+PODFILE CHECKSUM: 29a51f0fddf088afc10da2cc59bbbf93c1f28f3d
 
 COCOAPODS: 1.10.1
