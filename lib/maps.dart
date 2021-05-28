@@ -218,7 +218,7 @@ class _MyMaps extends State<MyMaps> {
                               child: Icon(Icons.run_circle_outlined),
                             ),
                             onTap: () {
-                              //산책 시작
+                              //산책 시작, 상태 설정, 경로나타내는 메서드
                             },
                           ),
                         ),
