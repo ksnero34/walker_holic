@@ -30,16 +30,18 @@ class _MyMaps extends State<MyMaps> {
   LatLng unitedn_l = LatLng(35.127479, 129.098139);
   LatLng gwang_l = LatLng(35.140535, 129.117227);
 
-  GoogleMapController _controller;
+  //GoogleMapController _controller;
   //loc.Location _location = loc.Location();
 
   BitmapDescriptor simin_icon;
   BitmapDescriptor unitedn_icon;
   BitmapDescriptor gwang_icon;
 
-  String site = '';
+  String site = getnearestsite.getsite();
+  String status = '대기중';
+  String nearestsiteimgpass = 'assets/loadings.gif';
 
-  getnearestsite nearestsite = new getnearestsite();
+  //getnearestsite nearestsite = new getnearestsite();
 
   Set<Marker> _markers = {};
 
@@ -94,12 +96,22 @@ class _MyMaps extends State<MyMaps> {
           icon: gwang_icon,
           infoWindow: InfoWindow(title: '광안리', snippet: '눈누난나')));
     });
-    _controller = _cntlr;
+    mapController = _cntlr;
+
     /*_location.onLocationChanged.listen((l) {
       _controller.animateCamera(CameraUpdate.newCameraPosition(
         CameraPosition(target: LatLng(l.latitude, l.longitude), zoom: 15),
       ));
     });*/
+  }
+
+  void setnearestimg() {
+    if (site == '시민공원')
+      nearestsiteimgpass = 'assets/img_simin.jpg';
+    else if (site == '유엔공원')
+      nearestsiteimgpass = 'assets/img_unitedn.jpg';
+    else
+      nearestsiteimgpass = 'assets/img_gwang.jpg';
   }
 
   @override
@@ -114,16 +126,22 @@ class _MyMaps extends State<MyMaps> {
     //BackgroundLocation.startLocationService();
     BackgroundLocation.getLocationUpdates((_location) async {
       userlocation_global = LatLng(_location.latitude, _location.longitude);
-      //print(nearestsite.getsite());
+      getnearestsite.setnearest(userlocation_global);
+      setState(() {
+        site = getnearestsite.getsite();
+        setnearestimg();
+      });
+      //print(getnearestsite.getsite());
+      //print(nearestlocation_global.getsite());
     });
     const myduration = const Duration(seconds: 5);
-    new Timer(myduration, () {
-      nearestsite.setnearest(userlocation_global);
-      setState(() {
-        site = nearestsite.getsite();
-        //print(site);
-      });
-    });
+    //new Timer(myduration, () {
+    //setState(() {
+
+    //print(site);
+    //});
+    //});
+
     return MaterialApp(
       home: Scaffold(
         body: Column(
@@ -133,7 +151,7 @@ class _MyMaps extends State<MyMaps> {
               height: statusHeight * 0.05,
               child: Row(
                 children: [
-                  Text('현재 상태 : '),
+                  Text('현재 상태 : $status'),
                   Text('                '),
                   Text('가장 가까운 산책지 : $site'),
                 ],
@@ -141,18 +159,78 @@ class _MyMaps extends State<MyMaps> {
             ),
             Container(
               height: statusHeight * 0.65,
-              child: GoogleMap(
-                initialCameraPosition:
-                    CameraPosition(target: _initialcameraposition, zoom: 15),
-                mapType: MapType.normal,
-                onMapCreated: _onMapCreated,
-                myLocationEnabled: true,
-                markers: _markers,
-              ),
+              child: Stack(children: [
+                GoogleMap(
+                  initialCameraPosition:
+                      CameraPosition(target: _initialcameraposition, zoom: 15),
+                  mapType: MapType.normal,
+                  onMapCreated: _onMapCreated,
+                  myLocationEnabled: true,
+                  myLocationButtonEnabled: false,
+                  zoomControlsEnabled: false,
+                  markers: _markers,
+                  mapToolbarEnabled: false,
+                ),
+                SafeArea(
+                  child: Align(
+                    alignment: Alignment.bottomRight,
+                    child: Padding(
+                      padding: const EdgeInsets.only(right: 10.0, bottom: 10.0),
+                      child: ClipOval(
+                        child: Material(
+                          color: Colors.orange[100], // button color
+                          child: InkWell(
+                            splashColor: Colors.orange, // inkwell color
+                            child: SizedBox(
+                              width: 56,
+                              height: 56,
+                              child: Icon(Icons.my_location),
+                            ),
+                            onTap: () {
+                              mapController.animateCamera(
+                                CameraUpdate.newCameraPosition(
+                                  CameraPosition(
+                                    target: userlocation_global,
+                                    zoom: 15.0,
+                                  ),
+                                ),
+                              );
+                            },
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+                SafeArea(
+                  child: Align(
+                    alignment: Alignment.bottomLeft,
+                    child: Padding(
+                      padding: const EdgeInsets.only(left: 10.0, bottom: 10.0),
+                      child: ClipOval(
+                        child: Material(
+                          color: Colors.orange[100], // button color
+                          child: InkWell(
+                            splashColor: Colors.orange, // inkwell color
+                            child: SizedBox(
+                              width: 56,
+                              height: 56,
+                              child: Icon(Icons.run_circle_outlined),
+                            ),
+                            onTap: () {
+                              //산책 시작, 상태 설정, 경로나타내는 메서드
+                            },
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ]),
             ),
             Image(
                 height: statusHeight * 0.3,
-                image: AssetImage('assets/img_soo.jpg')),
+                image: AssetImage(nearestsiteimgpass)),
           ],
         ),
       ),
