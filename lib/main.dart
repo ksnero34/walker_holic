@@ -8,14 +8,17 @@ import 'package:walkerholic/camera.dart';
 //import 'package:walkerholic/location/user_location.dart';
 import 'package:background_location/background_location.dart';
 import 'package:walkerholic/location/getnearest.dart';
+import 'package:walkerholic/status/user_status.dart';
+import 'package:walkerholic/status/walk_history.dart';
 
 import 'home.dart';
 import 'location/locationservice.dart';
 import 'location/user_location.dart';
 
 LatLng userlocation_global;
-getnearestsite nearestlocation_global;
-
+//getnearestsite nearestlocation_global;
+user_status status_global;
+user_history history_global;
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
@@ -50,9 +53,10 @@ class _MyHomePageState extends State<MyHomePage> {
     // TODO: implement initState
     super.initState();
     BackgroundLocation.startLocationService();
-
     BackgroundLocation.getLocationUpdates((_location) async {
       userlocation_global = LatLng(_location.latitude, _location.longitude);
+      getnearestsite.setnearest(userlocation_global);
+      //print(getnearestsite.getsite());
       //nearestlocation_global.setnearest(userlocation_global);
 
       //compute(nearestlocation_global.setnearest, userlocation_global);
