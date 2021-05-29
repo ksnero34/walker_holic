@@ -1,6 +1,5 @@
 import UIKit
 import Flutter
-import GoogleMaps
 
 @UIApplicationMain
 @objc class AppDelegate: FlutterAppDelegate {
@@ -12,8 +11,17 @@ import GoogleMaps
     UIApplication.shared.isStatusBarHidden = false
 
     GeneratedPluginRegistrant.register(with: self)
-
-    GMSServices.provideAPIKey("AIzaSyCe4YcYEeFhhbgnMAMdtREWDvzekV2b7_s")
+    
+    //navermap
+    if (CLLocationManager.locationServicesEnabled()) {
+    switch CLLocationManager.authorizationStatus() {
+    case .denied, .notDetermined, .restricted:
+        self.manager.requestAlwaysAuthorization()
+        break
+    default:
+        break
+    }
+}
 
     return super.application(application, didFinishLaunchingWithOptions: launchOptions)
   }

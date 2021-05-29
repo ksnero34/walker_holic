@@ -1,7 +1,8 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
+//import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:naver_map_plugin/naver_map_plugin.dart';
 import 'package:provider/provider.dart';
 import 'package:walkerholic/badge.dart';
 import 'package:walkerholic/camera.dart';
