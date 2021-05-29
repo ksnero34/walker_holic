@@ -1,5 +1,6 @@
 import 'package:geolocator/geolocator.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
+//import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:naver_map_plugin/naver_map_plugin.dart';
 
 class getnearestsite {
   static LatLng user;
