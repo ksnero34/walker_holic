@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:math';
 import 'dart:typed_data';
 
 import 'package:background_location/background_location.dart';
@@ -7,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 //import 'package:location/location.dart' as loc;
+import 'package:geolocator/geolocator.dart';
 import 'package:provider/provider.dart';
 import 'package:walkerholic/location/getnearest.dart';
 import 'location/locationservice.dart';
@@ -30,12 +32,15 @@ class _MyMaps extends State<MyMaps> {
   LatLng unitedn_l = LatLng(35.127479, 129.098139);
   LatLng gwang_l = LatLng(35.140535, 129.117227);
 
+  String _placeDistance;
+
   //GoogleMapController _controller;
   //loc.Location _location = loc.Location();
 
   BitmapDescriptor simin_icon;
   BitmapDescriptor unitedn_icon;
   BitmapDescriptor gwang_icon;
+  BitmapDescriptor current_icon;
 
   String site = getnearestsite.getsite();
   String status = '대기중';
@@ -43,7 +48,7 @@ class _MyMaps extends State<MyMaps> {
 
   //getnearestsite nearestsite = new getnearestsite();
 
-  Set<Marker> _markers = {};
+  Set<Marker> markers = {};
 
   @override
   Future<void> initState() {
@@ -76,26 +81,11 @@ class _MyMaps extends State<MyMaps> {
         ImageConfiguration(devicePixelRatio: 0.2), 'assets/marker_unitedn.png');
     gwang_icon = await BitmapDescriptor.fromAssetImage(
         ImageConfiguration(devicePixelRatio: 0.2), 'assets/marker_gwang.png');
+    current_icon = await BitmapDescriptor.fromAssetImage(
+        ImageConfiguration(devicePixelRatio: 0.2), 'assets/ic_icon.png');
   }
 
   void _onMapCreated(GoogleMapController _cntlr) {
-    setState(() {
-      _markers.add(Marker(
-          markerId: MarkerId('simin_mid'),
-          position: simin_l,
-          icon: simin_icon,
-          infoWindow: InfoWindow(title: '시민공원', snippet: '눈누난나')));
-      _markers.add(Marker(
-          markerId: MarkerId('unitedn_mid'),
-          position: unitedn_l,
-          icon: unitedn_icon,
-          infoWindow: InfoWindow(title: '유엔공원', snippet: '눈누난나')));
-      _markers.add(Marker(
-          markerId: MarkerId('gwang_mid'),
-          position: gwang_l,
-          icon: gwang_icon,
-          infoWindow: InfoWindow(title: '광안리', snippet: '눈누난나')));
-    });
     mapController = _cntlr;
 
     /*_location.onLocationChanged.listen((l) {
@@ -114,6 +104,138 @@ class _MyMaps extends State<MyMaps> {
       nearestsiteimgpass = 'assets/img_gwang.jpg';
   }
 
+  //산책지 위치 눌렀을 경우 실행될 메서드들
+  Future<bool> _calculateDistance(String destination) async {
+    try {
+      Position startCoordinates = Position(
+          latitude: userlocation_global.latitude,
+          longitude: userlocation_global.longitude);
+
+      Position destinationCoordinates;
+
+      Marker startMarker, destinationMarker;
+      // Start Location Marker
+      startMarker = Marker(
+        markerId: MarkerId('userstartloc'),
+        position: LatLng(
+          startCoordinates.latitude,
+          startCoordinates.longitude,
+        ),
+        infoWindow: InfoWindow(
+          title: '현재 위치',
+        ),
+        icon: current_icon,
+      );
+      if (destination == '시민공원') {
+        destinationMarker = Marker(
+            markerId: MarkerId('simin_mid'),
+            position: simin_l,
+            icon: simin_icon,
+            infoWindow: InfoWindow(title: '시민공원', snippet: '눈누난나'));
+        destinationCoordinates =
+            Position(latitude: simin_l.latitude, longitude: simin_l.longitude);
+      } else if (destination == '유엔공원') {
+        destinationMarker = Marker(
+            markerId: MarkerId('unitedn_mid'),
+            position: unitedn_l,
+            icon: unitedn_icon,
+            infoWindow: InfoWindow(title: '유엔공원', snippet: '눈누난나'));
+        destinationCoordinates = Position(
+            latitude: unitedn_l.latitude, longitude: unitedn_l.longitude);
+      } else {
+        destinationMarker = Marker(
+            markerId: MarkerId('gwang_mid'),
+            position: gwang_l,
+            icon: gwang_icon,
+            infoWindow: InfoWindow(title: '광안리', snippet: '눈누난나'));
+        destinationCoordinates =
+            Position(latitude: gwang_l.latitude, longitude: gwang_l.longitude);
+      }
+      // Destination Location Marker
+
+      // Adding the markers to the list
+      markers.add(startMarker);
+      markers.add(destinationMarker);
+
+      print('START COORDINATES: $startCoordinates');
+      print('DESTINATION COORDINATES: $destinationCoordinates');
+
+      Position _northeastCoordinates;
+      Position _southwestCoordinates;
+
+      // Calculating to check that
+      // southwest coordinate <= northeast coordinate
+      if (startCoordinates.latitude <= destinationCoordinates.latitude) {
+        _southwestCoordinates = startCoordinates;
+        _northeastCoordinates = destinationCoordinates;
+      } else {
+        _southwestCoordinates = destinationCoordinates;
+        _northeastCoordinates = startCoordinates;
+      }
+      final LatLng southwest = LatLng(
+        min(startCoordinates.latitude, destinationCoordinates.latitude),
+        min(startCoordinates.longitude, destinationCoordinates.longitude),
+      );
+
+      final LatLng northeast = LatLng(
+        max(startCoordinates.latitude, destinationCoordinates.latitude),
+        max(startCoordinates.longitude, destinationCoordinates.longitude),
+      );
+
+      LatLngBounds bounds = LatLngBounds(
+        southwest: southwest,
+        northeast: northeast,
+      );
+
+      // Accomodate the two locations within the
+      // camera view of the map
+      mapController.animateCamera(
+        CameraUpdate.newLatLngBounds(
+          bounds,
+          100.0,
+        ),
+      );
+
+      // Calculating the distance between the start and the end positions
+      // with a straight path, without considering any route
+      // double distanceInMeters = await Geolocator().bearingBetween(
+      //   startCoordinates.latitude,
+      //   startCoordinates.longitude,
+      //   destinationCoordinates.latitude,
+      //   destinationCoordinates.longitude,
+      // );
+
+      //await _createPolylines(startCoordinates, destinationCoordinates);
+
+      double totalDistance = getnearestsite.getDistance(
+          userlocation_global,
+          LatLng(destinationCoordinates.latitude,
+              destinationCoordinates.longitude));
+
+      // 구글 api상 국내에선 도보사용 불가
+      // for (int i = 0; i < polylineCoordinates.length - 1; i++) {
+      //   totalDistance += _coordinateDistance(
+      //     polylineCoordinates[i].latitude,
+      //     polylineCoordinates[i].longitude,
+      //     polylineCoordinates[i + 1].latitude,
+      //     polylineCoordinates[i + 1].longitude,
+      //   );
+      // }
+
+      setState(() {
+        _placeDistance = totalDistance.toStringAsFixed(2);
+        print('DISTANCE: $_placeDistance m');
+      });
+
+      return true;
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  // Create the polylines for showing the route between two places
+  _createPolylines(String destination) async {}
+
   @override
   Widget build(BuildContext context) {
     //var userLocation = Provider.of<UserLocation>(context);
@@ -124,6 +246,8 @@ class _MyMaps extends State<MyMaps> {
         MediaQuery.of(context).padding.bottom); // 기기의 화면크기
 
     //BackgroundLocation.startLocationService();
+
+    //사용자의 위치 바뀔때 마다 처리할 내용 있으면 여기서 처리
     BackgroundLocation.getLocationUpdates((_location) async {
       userlocation_global = LatLng(_location.latitude, _location.longitude);
       getnearestsite.setnearest(userlocation_global);
@@ -134,6 +258,7 @@ class _MyMaps extends State<MyMaps> {
       //print(getnearestsite.getsite());
       //print(nearestlocation_global.getsite());
     });
+    //주기적으로 처리할 내용 있을경우 여기서처리
     const myduration = const Duration(seconds: 5);
     //new Timer(myduration, () {
     //setState(() {
@@ -168,9 +293,10 @@ class _MyMaps extends State<MyMaps> {
                   myLocationEnabled: true,
                   myLocationButtonEnabled: false,
                   zoomControlsEnabled: false,
-                  markers: _markers,
+                  markers: markers,
                   mapToolbarEnabled: false,
                 ),
+                // 현재위치 버튼
                 SafeArea(
                   child: Align(
                     alignment: Alignment.bottomRight,
@@ -187,6 +313,12 @@ class _MyMaps extends State<MyMaps> {
                               child: Icon(Icons.my_location),
                             ),
                             onTap: () {
+                              setState(() {
+                                if (markers.isNotEmpty) markers.clear();
+                                // if (polylines.isNotEmpty)
+                                //   polylines.clear();
+                                _placeDistance = null;
+                              });
                               mapController.animateCamera(
                                 CameraUpdate.newCameraPosition(
                                   CameraPosition(
@@ -202,11 +334,12 @@ class _MyMaps extends State<MyMaps> {
                     ),
                   ),
                 ),
+                //화면 상단 버튼 세개 배치
                 SafeArea(
                   child: Align(
-                    alignment: Alignment.bottomLeft,
+                    alignment: Alignment.topLeft,
                     child: Padding(
-                      padding: const EdgeInsets.only(left: 10.0, bottom: 10.0),
+                      padding: const EdgeInsets.only(left: 10.0, top: 10.0),
                       child: ClipOval(
                         child: Material(
                           color: Colors.orange[100], // button color
@@ -217,7 +350,14 @@ class _MyMaps extends State<MyMaps> {
                               height: 56,
                               child: Icon(Icons.run_circle_outlined),
                             ),
-                            onTap: () {
+                            onTap: () async {
+                              setState(() {
+                                if (markers.isNotEmpty) markers.clear();
+                                // if (polylines.isNotEmpty)
+                                //   polylines.clear();
+                                _placeDistance = null;
+                              });
+                              _calculateDistance('시민공원');
                               //산책 시작, 상태 설정, 경로나타내는 메서드
                             },
                           ),
@@ -226,6 +366,69 @@ class _MyMaps extends State<MyMaps> {
                     ),
                   ),
                 ),
+                SafeArea(
+                  child: Align(
+                    alignment: Alignment.topCenter,
+                    child: Padding(
+                      padding: const EdgeInsets.only(top: 10.0),
+                      child: ClipOval(
+                        child: Material(
+                          color: Colors.orange[100], // button color
+                          child: InkWell(
+                            splashColor: Colors.orange, // inkwell color
+                            child: SizedBox(
+                              width: 56,
+                              height: 56,
+                              child: Icon(Icons.run_circle_outlined),
+                            ),
+                            onTap: () async {
+                              setState(() {
+                                if (markers.isNotEmpty) markers.clear();
+                                // if (polylines.isNotEmpty)
+                                //   polylines.clear();
+                                _placeDistance = null;
+                              });
+                              _calculateDistance('유엔공원');
+                              //산책 시작, 상태 설정, 경로나타내는 메서드
+                            },
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+                SafeArea(
+                  child: Align(
+                    alignment: Alignment.topRight,
+                    child: Padding(
+                      padding: const EdgeInsets.only(right: 10.0, top: 10.0),
+                      child: ClipOval(
+                        child: Material(
+                          color: Colors.orange[100], // button color
+                          child: InkWell(
+                            splashColor: Colors.orange, // inkwell color
+                            child: SizedBox(
+                              width: 56,
+                              height: 56,
+                              child: Icon(Icons.run_circle_outlined),
+                            ),
+                            onTap: () async {
+                              setState(() {
+                                if (markers.isNotEmpty) markers.clear();
+                                // if (polylines.isNotEmpty)
+                                //   polylines.clear();
+                                _placeDistance = null;
+                              });
+                              _calculateDistance('광안리');
+                              //산책 시작, 상태 설정, 경로나타내는 메서드
+                            },
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+                //화면 상단 세개 아이콘 끝
               ]),
             ),
             Image(
