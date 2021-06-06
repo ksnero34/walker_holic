@@ -183,18 +183,6 @@ class _MyMaps extends State<MyMaps> {
       print('START COORDINATES: $startCoordinates');
       print('DESTINATION COORDINATES: $destinationCoordinates');
 
-      Position _northeastCoordinates;
-      Position _southwestCoordinates;
-
-      // Calculating to check that
-      // southwest coordinate <= northeast coordinate
-      if (startCoordinates.latitude <= destinationCoordinates.latitude) {
-        _southwestCoordinates = startCoordinates;
-        _northeastCoordinates = destinationCoordinates;
-      } else {
-        _southwestCoordinates = destinationCoordinates;
-        _northeastCoordinates = startCoordinates;
-      }
       final LatLng southwest = LatLng(
         min(startCoordinates.latitude, destinationCoordinates.latitude),
         min(startCoordinates.longitude, destinationCoordinates.longitude),
