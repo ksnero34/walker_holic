@@ -49,6 +49,7 @@ class _MyMaps extends State<MyMaps> {
   //getnearestsite nearestsite = new getnearestsite();
 
   Set<Marker> markers = {};
+  Set<Polyline> polylines = {};
 
   @override
   Future<void> initState() {
@@ -102,6 +103,28 @@ class _MyMaps extends State<MyMaps> {
       nearestsiteimgpass = 'assets/img_unitedn.jpg';
     else
       nearestsiteimgpass = 'assets/img_gwang.jpg';
+  }
+
+  _createPolylines() {
+    //인수 넘겨받아서 if문으로 산책지에 맞는 polyline 주면 될듯
+    polylines.add(Polyline(
+      polylineId: PolylineId('poly'),
+      visible: true,
+      color: Colors.blue,
+      points: _createPoints(),
+      width: 5,
+    ));
+  }
+
+  List<LatLng> _createPoints() {
+    final List<LatLng> points = <LatLng>[];
+    LatLng test1 = LatLng(35.133275, 129.101065);
+    LatLng test2 = LatLng(35.131752, 129.101332);
+    LatLng test3 = LatLng(35.129989, 129.105215);
+    points.add(test1);
+    points.add(test2);
+    points.add(test3);
+    return points;
   }
 
   //산책지 위치 눌렀을 경우 실행될 메서드들
@@ -206,7 +229,7 @@ class _MyMaps extends State<MyMaps> {
       // );
 
       //await _createPolylines(startCoordinates, destinationCoordinates);
-
+      _createPolylines();
       double totalDistance = getnearestsite.getDistance(
           userlocation_global,
           LatLng(destinationCoordinates.latitude,
@@ -234,7 +257,7 @@ class _MyMaps extends State<MyMaps> {
   }
 
   // Create the polylines for showing the route between two places
-  _createPolylines(String destination) async {}
+  //_createPolylines(String destination) async {}
 
   @override
   Widget build(BuildContext context) {
@@ -295,6 +318,7 @@ class _MyMaps extends State<MyMaps> {
                   zoomControlsEnabled: false,
                   markers: markers,
                   mapToolbarEnabled: false,
+                  polylines: polylines,
                 ),
                 // 현재위치 버튼
                 SafeArea(
@@ -315,8 +339,7 @@ class _MyMaps extends State<MyMaps> {
                             onTap: () {
                               setState(() {
                                 if (markers.isNotEmpty) markers.clear();
-                                // if (polylines.isNotEmpty)
-                                //   polylines.clear();
+                                if (polylines.isNotEmpty) polylines.clear();
                                 _placeDistance = null;
                               });
                               mapController.animateCamera(
@@ -353,8 +376,7 @@ class _MyMaps extends State<MyMaps> {
                             onTap: () async {
                               setState(() {
                                 if (markers.isNotEmpty) markers.clear();
-                                // if (polylines.isNotEmpty)
-                                //   polylines.clear();
+                                if (polylines.isNotEmpty) polylines.clear();
                                 _placeDistance = null;
                               });
                               _calculateDistance('시민공원');
@@ -384,8 +406,7 @@ class _MyMaps extends State<MyMaps> {
                             onTap: () async {
                               setState(() {
                                 if (markers.isNotEmpty) markers.clear();
-                                // if (polylines.isNotEmpty)
-                                //   polylines.clear();
+                                if (polylines.isNotEmpty) polylines.clear();
                                 _placeDistance = null;
                               });
                               _calculateDistance('유엔공원');
@@ -415,8 +436,7 @@ class _MyMaps extends State<MyMaps> {
                             onTap: () async {
                               setState(() {
                                 if (markers.isNotEmpty) markers.clear();
-                                // if (polylines.isNotEmpty)
-                                //   polylines.clear();
+                                if (polylines.isNotEmpty) polylines.clear();
                                 _placeDistance = null;
                               });
                               _calculateDistance('광안리');
