@@ -83,6 +83,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       image: AssetImage('assets/loadings.gif'))),
               BottomNavigationBarItem(icon: Icon(Icons.location_searching))
             ],
+            currentIndex: 1,
           ),
           tabBuilder: mytabbuilder),
     );

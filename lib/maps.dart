@@ -105,25 +105,39 @@ class _MyMaps extends State<MyMaps> {
       nearestsiteimgpass = 'assets/img_gwang.jpg';
   }
 
-  _createPolylines() {
+  _createPolylines(String destination) {
     //인수 넘겨받아서 if문으로 산책지에 맞는 polyline 주면 될듯
     polylines.add(Polyline(
       polylineId: PolylineId('poly'),
       visible: true,
       color: Colors.blue,
-      points: _createPoints(),
+      points: _createPoints(destination),
       width: 5,
     ));
   }
 
-  List<LatLng> _createPoints() {
+  List<LatLng> _createPoints(String destination) {
     final List<LatLng> points = <LatLng>[];
-    LatLng test1 = LatLng(35.133275, 129.101065);
-    LatLng test2 = LatLng(35.131752, 129.101332);
-    LatLng test3 = LatLng(35.129989, 129.105215);
-    points.add(test1);
-    points.add(test2);
-    points.add(test3);
+    if (destination == '시민공원') {
+      points.add(LatLng(35.133275, 129.101065));
+      points.add(LatLng(35.131752, 129.101332));
+      points.add(LatLng(35.129989, 129.105215));
+    } else if (destination == '유엔공원') {
+      points.add(LatLng(35.133275, 129.101065));
+      points.add(LatLng(35.131752, 129.101332));
+      points.add(LatLng(35.129989, 129.105215));
+    } else {
+      points.add(LatLng(35.139962, 129.117072));
+      points.add(LatLng(35.146006, 129.117182));
+      points.add(LatLng(35.146071, 129.114713));
+      points.add(LatLng(35.147075, 129.114344));
+      points.add(LatLng(35.149061, 129.114954));
+      points.add(LatLng(35.153469, 129.118390));
+      points.add(LatLng(35.154532, 129.120116));
+      points.add(LatLng(35.155673, 129.123524));
+      points.add(LatLng(35.152968, 129.124462));
+    }
+
     return points;
   }
 
@@ -217,7 +231,8 @@ class _MyMaps extends State<MyMaps> {
       // );
 
       //await _createPolylines(startCoordinates, destinationCoordinates);
-      _createPolylines();
+      _createPolylines(destination);
+
       double totalDistance = getnearestsite.getDistance(
           userlocation_global,
           LatLng(destinationCoordinates.latitude,
@@ -437,6 +452,31 @@ class _MyMaps extends State<MyMaps> {
                   ),
                 ),
                 //화면 상단 세개 아이콘 끝
+                //산책시작 아이콘
+                SafeArea(
+                  child: Align(
+                    alignment: Alignment.bottomLeft,
+                    child: Padding(
+                      padding: const EdgeInsets.only(right: 10.0, top: 10.0),
+                      child: ClipOval(
+                        child: Material(
+                          color: Colors.orange[100], // button color
+                          child: InkWell(
+                            splashColor: Colors.orange, // inkwell color
+                            child: SizedBox(
+                              width: 56,
+                              height: 56,
+                              child: Icon(Icons.run_circle_outlined),
+                            ),
+                            onTap: () async {
+                              setState(() {});
+                            },
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
               ]),
             ),
             Image(
