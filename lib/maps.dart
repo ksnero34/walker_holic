@@ -1,4 +1,5 @@
 import 'dart:async';
+//import 'dart:html';
 import 'dart:math';
 import 'dart:typed_data';
 
@@ -74,6 +75,8 @@ class _MyMaps extends State<MyMaps> {
 
   bool walking_ready = false;
   String destination_set = user_status.get_destination();
+  String upperstatus;
+
   @override
   Future<void> initState() {
     // TODO: implement initState
@@ -83,6 +86,10 @@ class _MyMaps extends State<MyMaps> {
       status = '산책중';
     } else
       status = '대기중';
+    if (status == '산책중')
+      upperstatus = '목표 산책지 : $destination_set';
+    else
+      upperstatus = '가장 가까운 산책지 : $site';
     //print('initstateddd');
   }
 
@@ -174,7 +181,7 @@ class _MyMaps extends State<MyMaps> {
     return points;
   }
 
-  void set_init_walking(String destination) {}
+  //void set_init_walking(String destination) {}
 
   //산책지 위치 눌렀을 경우 실행될 메서드들
   Future<bool> _calculateDistance(String destination) async {
@@ -229,8 +236,8 @@ class _MyMaps extends State<MyMaps> {
       markers.add(startMarker);
       markers.add(destinationMarker);
 
-      print('START COORDINATES: $startCoordinates');
-      print('DESTINATION COORDINATES: $destinationCoordinates');
+      // print('START COORDINATES: $startCoordinates');
+      // print('DESTINATION COORDINATES: $destinationCoordinates');
 
       final LatLng southwest = LatLng(
         min(startCoordinates.latitude, destinationCoordinates.latitude),
@@ -285,7 +292,7 @@ class _MyMaps extends State<MyMaps> {
 
       setState(() {
         _placeDistance = totalDistance.toStringAsFixed(2);
-        print('DISTANCE: $_placeDistance m');
+        print('산책지 까지 거리 : $_placeDistance m');
       });
 
       return true;
@@ -342,7 +349,7 @@ class _MyMaps extends State<MyMaps> {
                   Text('  '),
                   Text('현재 상태 : $status'),
                   Text('                '),
-                  Text('가장 가까운 산책지 : $site'),
+                  Text(upperstatus),
                 ],
               ),
             ),
@@ -535,6 +542,7 @@ class _MyMaps extends State<MyMaps> {
                               if (walking_ready) {
                                 setState(() {
                                   status = '산책중';
+                                  upperstatus = '목표 산책지 : $destination_set';
                                 });
                                 user_status.start_walk(
                                     destination_set, userlocation_global);
@@ -544,6 +552,7 @@ class _MyMaps extends State<MyMaps> {
                                   user_status.end_walk();
                                   setState(() {
                                     status = '대기중';
+                                    upperstatus = '가장 가까운 산책지 : $site';
                                     destination_set = '';
                                     set_destinationimg(destination_set);
                                     if (markers.isNotEmpty) markers.clear();

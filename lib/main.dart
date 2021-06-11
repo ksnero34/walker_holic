@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:walkerholic/badge.dart';
 import 'package:walkerholic/camera.dart';
 //import 'package:walkerholic/location/user_location.dart';
@@ -19,6 +20,9 @@ LatLng userlocation_global;
 //getnearestsite nearestlocation_global;
 user_status status_global;
 user_history history_global;
+
+SharedPreferences key_val;
+
 void main() => runApp(MaterialApp(
       title: '부산폴짝',
       initialRoute: '/',
@@ -58,6 +62,9 @@ class _MyHomePageState extends State<MyHomePage> {
   void initState() {
     // TODO: implement initState
     super.initState();
+
+    set_keyval();
+
     BackgroundLocation.startLocationService();
     BackgroundLocation.getLocationUpdates((_location) async {
       userlocation_global = LatLng(_location.latitude, _location.longitude);
@@ -68,6 +75,10 @@ class _MyHomePageState extends State<MyHomePage> {
       //compute(nearestlocation_global.setnearest, userlocation_global);
       //print(userlocation_global.longitude);
     });
+  }
+
+  Future<void> set_keyval() async {
+    key_val = await SharedPreferences.getInstance();
   }
 
   @override
