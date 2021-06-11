@@ -25,38 +25,43 @@ class _homeState extends State<home> {
       );
     }
 
-    return Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-      //Padding(padding: EdgeInsets.only(top: statusBarHeight)),
-      //SizedBox(
-      //height: statusHeight * 0.05,
-      //),
+    return ListView(children: <Widget>[
+      SizedBox(
+        height: 200,
+      ),
+      Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+        //Padding(padding: EdgeInsets.only(top: statusBarHeight)),
+        //SizedBox(
+        //height: statusHeight * 0.05,
+        //),
 
-      GestureDetector(
-        onTap: () {
-          //print('pressedddd');
-          setState(() {
-            navigatetomap(context);
-          });
-        },
-        child: Container(
-          child: Row(
-            children: [
-              Image(
-                  width: statuswidth * 0.33,
-                  image: AssetImage('assets/map_jin.png')),
-              Image(
-                  width: statuswidth * 0.33,
-                  image: AssetImage('assets/map_nam.png')),
-              Image(
-                  width: statuswidth * 0.33,
-                  image: AssetImage('assets/map_soo.png')),
-            ],
+        GestureDetector(
+          onTap: () {
+            //print('pressedddd');
+            setState(() {
+              navigatetomap(context);
+            });
+          },
+          child: Container(
+            child: Row(
+              children: [
+                Image(
+                    width: statuswidth * 0.33,
+                    image: AssetImage('assets/map_jin.png')),
+                Image(
+                    width: statuswidth * 0.33,
+                    image: AssetImage('assets/map_nam.png')),
+                Image(
+                    width: statuswidth * 0.33,
+                    image: AssetImage('assets/map_soo.png')),
+              ],
+            ),
           ),
         ),
-      ),
-      SizedBox(
-        height: statusHeight * 0.2,
-      )
+        SizedBox(
+          height: statusHeight * 0.2,
+        )
+      ]),
     ]);
   }
 }

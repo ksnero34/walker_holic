@@ -16,6 +16,7 @@ import 'dart:ui' as ui;
 import 'location/user_location.dart';
 import 'location/getnearest.dart';
 import 'main.dart';
+import 'package:carousel_slider/carousel_slider.dart';
 //import 'package:geocoding/geocoding.dart';
 //import 'main.dart';
 //import 'main.dart';
@@ -33,6 +34,23 @@ class _MyMaps extends State<MyMaps> {
   LatLng gwang_l = LatLng(35.140535, 129.117227);
 
   String _placeDistance;
+
+  List<Image> pictureLists = [Image.asset('assets/loadings.gif')];
+  final pictureLists_simin = [
+    Image.asset('assets/img_simin.jpg'),
+    Image.asset('assets/img_simin.jpg'),
+    Image.asset('assets/img_simin.jpg')
+  ];
+  final pictureLists_unitedn = [
+    Image.asset('assets/img_unitedn.jpg'),
+    Image.asset('assets/img_unitedn.jpg'),
+    Image.asset('assets/img_unitedn.jpg')
+  ];
+  final pictureLists_gwang = [
+    Image.asset('assets/img_gwang.jpg'),
+    Image.asset('assets/img_gwang.jpg'),
+    Image.asset('assets/img_gwang.jpg')
+  ];
 
   //GoogleMapController _controller;
   //loc.Location _location = loc.Location();
@@ -98,11 +116,11 @@ class _MyMaps extends State<MyMaps> {
 
   void setnearestimg() {
     if (site == '시민공원')
-      nearestsiteimgpass = 'assets/img_simin.jpg';
+      pictureLists = pictureLists_simin;
     else if (site == '유엔공원')
-      nearestsiteimgpass = 'assets/img_unitedn.jpg';
+      pictureLists = pictureLists_unitedn;
     else
-      nearestsiteimgpass = 'assets/img_gwang.jpg';
+      pictureLists = pictureLists_gwang;
   }
 
   _createPolylines(String destination) {
@@ -302,6 +320,7 @@ class _MyMaps extends State<MyMaps> {
               height: statusHeight * 0.05,
               child: Row(
                 children: [
+                  Text('  '),
                   Text('현재 상태 : $status'),
                   Text('                '),
                   Text('가장 가까운 산책지 : $site'),
@@ -457,7 +476,7 @@ class _MyMaps extends State<MyMaps> {
                   child: Align(
                     alignment: Alignment.bottomLeft,
                     child: Padding(
-                      padding: const EdgeInsets.only(right: 10.0, top: 10.0),
+                      padding: const EdgeInsets.only(left: 10.0, bottom: 10.0),
                       child: ClipOval(
                         child: Material(
                           color: Colors.orange[100], // button color
@@ -479,9 +498,26 @@ class _MyMaps extends State<MyMaps> {
                 ),
               ]),
             ),
-            Image(
-                height: statusHeight * 0.3,
-                image: AssetImage(nearestsiteimgpass)),
+            CarouselSlider(
+                options: CarouselOptions(
+                    height: statusHeight * 0.3, autoPlay: false),
+                items: pictureLists.map((image) {
+                  return Builder(
+                    builder: (BuildContext context) {
+                      return Container(
+                        width: MediaQuery.of(context).size.width,
+                        margin: EdgeInsets.symmetric(horizontal: 5.0),
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(10.0),
+                          child: image,
+                        ),
+                      );
+                    },
+                  );
+                }).toList()),
+            // Image(
+            //     height: statusHeight * 0.3,
+            //     image: AssetImage(nearestsiteimgpass)),
           ],
         ),
       ),
