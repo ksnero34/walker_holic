@@ -8,10 +8,10 @@ class badge extends StatefulWidget {
 }
 
 class _badgeState extends State<badge> {
-  String status;
+  String status = '';
 
   @override
-  void initState() {
+  Future<void> initState() {
     // TODO: implement initState
     super.initState();
     if (user_status.check_status())
@@ -22,9 +22,15 @@ class _badgeState extends State<badge> {
 
   @override
   Widget build(BuildContext context) {
+    final double statusBarHeight =
+        MediaQuery.of(context).padding.top; //기기의 상태창 크기
+    final double statusHeight = (MediaQuery.of(context).size.height -
+        statusBarHeight -
+        MediaQuery.of(context).padding.bottom); // 기기의 화면크기
     return Center(
       child: Column(
         children: [
+          Padding(padding: EdgeInsets.only(top: statusBarHeight)),
           Text('badge'),
           Row(
             children: [

@@ -38,6 +38,7 @@ class _MyMaps extends State<MyMaps> {
   String _placeDistance;
 
   List<Image> pictureLists = [Image.asset('assets/loadings.gif')];
+  final pictureLists_init = [Image.asset('assets/loadings.gif')];
   final pictureLists_simin = [
     Image.asset('assets/img_simin.jpg'),
     Image.asset('assets/img_simin.jpg'),
@@ -72,15 +73,15 @@ class _MyMaps extends State<MyMaps> {
   Set<Polyline> polylines = {};
 
   bool walking_ready = false;
-
+  String destination_set = user_status.get_destination();
   @override
   Future<void> initState() {
     // TODO: implement initState
     super.initState();
     seticon_img();
-    if (user_status.check_status())
+    if (user_status.check_status()) {
       status = '산책중';
-    else
+    } else
       status = '대기중';
     //print('initstateddd');
   }
@@ -114,7 +115,7 @@ class _MyMaps extends State<MyMaps> {
 
   void _onMapCreated(GoogleMapController _cntlr) {
     mapController = _cntlr;
-
+    if (user_status.check_status()) _calculateDistance(destination_set);
     /*_location.onLocationChanged.listen((l) {
       _controller.animateCamera(CameraUpdate.newCameraPosition(
         CameraPosition(target: LatLng(l.latitude, l.longitude), zoom: 15),
@@ -122,13 +123,15 @@ class _MyMaps extends State<MyMaps> {
     });*/
   }
 
-  void setnearestimg() {
-    if (site == '시민공원')
+  void set_destinationimg(String destiantion) {
+    if (destiantion == '시민공원')
       pictureLists = pictureLists_simin;
-    else if (site == '유엔공원')
+    else if (destiantion == '유엔공원')
       pictureLists = pictureLists_unitedn;
-    else
+    else if (destiantion == '광안리')
       pictureLists = pictureLists_gwang;
+    else
+      pictureLists = pictureLists_init;
   }
 
   _createPolylines(String destination) {
@@ -167,6 +170,8 @@ class _MyMaps extends State<MyMaps> {
 
     return points;
   }
+
+  void set_init_walking(String destination) {}
 
   //산책지 위치 눌렀을 경우 실행될 메서드들
   Future<bool> _calculateDistance(String destination) async {
@@ -304,10 +309,12 @@ class _MyMaps extends State<MyMaps> {
     BackgroundLocation.getLocationUpdates((_location) async {
       userlocation_global = LatLng(_location.latitude, _location.longitude);
       getnearestsite.setnearest(userlocation_global);
-      setState(() {
-        site = getnearestsite.getsite();
-        setnearestimg();
-      });
+      if (site != getnearestsite.getsite()) {
+        setState(() {
+          site = getnearestsite.getsite();
+          //if (status == '산책중') set_destinationimg(destination_set);
+        });
+      }
       //print(getnearestsite.getsite());
       //print(nearestlocation_global.getsite());
     });
@@ -368,11 +375,15 @@ class _MyMaps extends State<MyMaps> {
                               child: Icon(Icons.my_location),
                             ),
                             onTap: () {
-                              setState(() {
-                                if (markers.isNotEmpty) markers.clear();
-                                if (polylines.isNotEmpty) polylines.clear();
-                                _placeDistance = null;
-                              });
+                              if (status != '산책중') {
+                                destination_set = '';
+                                setState(() {
+                                  if (markers.isNotEmpty) markers.clear();
+                                  if (polylines.isNotEmpty) polylines.clear();
+                                  _placeDistance = null;
+                                  set_destinationimg(destination_set);
+                                });
+                              }
                               mapController.animateCamera(
                                 CameraUpdate.newCameraPosition(
                                   CameraPosition(
@@ -405,13 +416,19 @@ class _MyMaps extends State<MyMaps> {
                               child: Icon(Icons.run_circle_outlined),
                             ),
                             onTap: () async {
-                              setState(() {
-                                if (markers.isNotEmpty) markers.clear();
-                                if (polylines.isNotEmpty) polylines.clear();
-                                _placeDistance = null;
-                              });
-                              _calculateDistance('시민공원');
-                              walking_ready = true;
+                              if (status != '산책중') {
+                                destination_set = '시민공원';
+                                setState(() {
+                                  set_destinationimg(destination_set);
+                                });
+                                setState(() {
+                                  if (markers.isNotEmpty) markers.clear();
+                                  if (polylines.isNotEmpty) polylines.clear();
+                                  _placeDistance = null;
+                                });
+                                _calculateDistance(destination_set);
+                                walking_ready = true;
+                              }
                               //산책 시작, 상태 설정, 경로나타내는 메서드
                             },
                           ),
@@ -436,14 +453,20 @@ class _MyMaps extends State<MyMaps> {
                               child: Icon(Icons.run_circle_outlined),
                             ),
                             onTap: () async {
-                              setState(() {
-                                if (markers.isNotEmpty) markers.clear();
-                                if (polylines.isNotEmpty) polylines.clear();
-                                _placeDistance = null;
-                              });
-                              _calculateDistance('유엔공원');
-                              walking_ready = true;
-                              //산책 시작, 상태 설정, 경로나타내는 메서드
+                              if (status != '산책중') {
+                                destination_set = '유엔공원';
+                                setState(() {
+                                  set_destinationimg(destination_set);
+                                });
+                                setState(() {
+                                  if (markers.isNotEmpty) markers.clear();
+                                  if (polylines.isNotEmpty) polylines.clear();
+                                  _placeDistance = null;
+                                });
+                                _calculateDistance(destination_set);
+                                walking_ready = true;
+                                //산책 시작, 상태 설정, 경로나타내는 메서드
+                              }
                             },
                           ),
                         ),
@@ -467,14 +490,20 @@ class _MyMaps extends State<MyMaps> {
                               child: Icon(Icons.run_circle_outlined),
                             ),
                             onTap: () async {
-                              setState(() {
-                                if (markers.isNotEmpty) markers.clear();
-                                if (polylines.isNotEmpty) polylines.clear();
-                                _placeDistance = null;
-                              });
-                              _calculateDistance('광안리');
-                              walking_ready = true;
-                              //산책 시작, 상태 설정, 경로나타내는 메서드
+                              if (status != '산책중') {
+                                destination_set = '광안리';
+                                setState(() {
+                                  set_destinationimg(destination_set);
+                                });
+                                setState(() {
+                                  if (markers.isNotEmpty) markers.clear();
+                                  if (polylines.isNotEmpty) polylines.clear();
+                                  _placeDistance = null;
+                                });
+                                _calculateDistance(destination_set);
+                                walking_ready = true;
+                                //산책 시작, 상태 설정, 경로나타내는 메서드
+                              }
                             },
                           ),
                         ),
@@ -483,7 +512,7 @@ class _MyMaps extends State<MyMaps> {
                   ),
                 ),
                 //화면 상단 세개 아이콘 끝
-                //산책시작 아이콘
+                //산책시작, 종료 아이콘
                 SafeArea(
                   child: Align(
                     alignment: Alignment.bottomLeft,
@@ -504,14 +533,28 @@ class _MyMaps extends State<MyMaps> {
                                 setState(() {
                                   status = '산책중';
                                 });
-                                user_status.start_walk();
+                                user_status.start_walk(
+                                    destination_set, userlocation_global);
                                 walking_ready = false;
                               } else {
                                 if (status == '산책중') {
                                   user_status.end_walk();
                                   setState(() {
                                     status = '대기중';
+                                    destination_set = '';
+                                    set_destinationimg(destination_set);
+                                    if (markers.isNotEmpty) markers.clear();
+                                    if (polylines.isNotEmpty) polylines.clear();
+                                    _placeDistance = null;
                                   });
+                                  mapController.animateCamera(
+                                    CameraUpdate.newCameraPosition(
+                                      CameraPosition(
+                                        target: userlocation_global,
+                                        zoom: 15.0,
+                                      ),
+                                    ),
+                                  );
                                 } else {
                                   //산책먼저하라는 메시지 알려주기
                                 }
