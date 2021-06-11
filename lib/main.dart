@@ -13,8 +13,6 @@ import 'package:walkerholic/status/user_status.dart';
 import 'package:walkerholic/status/walk_history.dart';
 
 import 'home.dart';
-import 'location/locationservice.dart';
-import 'location/user_location.dart';
 
 LatLng userlocation_global;
 //getnearestsite nearestlocation_global;

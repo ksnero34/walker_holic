@@ -20,6 +20,7 @@ import 'location/getnearest.dart';
 import 'main.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'status/user_status.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 //import 'package:geocoding/geocoding.dart';
 //import 'main.dart';
 //import 'main.dart';
@@ -292,7 +293,7 @@ class _MyMaps extends State<MyMaps> {
 
       setState(() {
         _placeDistance = totalDistance.toStringAsFixed(2);
-        print('산책지 까지 거리 : $_placeDistance m');
+        //print('산책지 까지 거리 : $_placeDistance m');
       });
 
       return true;
@@ -328,8 +329,14 @@ class _MyMaps extends State<MyMaps> {
       //print(getnearestsite.getsite());
       //print(nearestlocation_global.getsite());
     });
+
+    Duration myduration() {
+      if (destination_set == '') {
+        return Duration(seconds: 60);
+      } else
+        return Duration(seconds: 6);
+    }
     //주기적으로 처리할 내용 있을경우 여기서처리
-    const myduration = const Duration(seconds: 5);
     //new Timer(myduration, () {
     //setState(() {
 
@@ -393,6 +400,15 @@ class _MyMaps extends State<MyMaps> {
                                   _placeDistance = null;
                                   set_destinationimg(destination_set);
                                 });
+                                if (walking_ready) {
+                                  Fluttertoast.showToast(
+                                    msg: '산책 목적지를 취소합니다!',
+                                    toastLength: Toast.LENGTH_LONG,
+                                    gravity: ToastGravity.BOTTOM,
+                                    timeInSecForIosWeb: 2,
+                                  );
+                                }
+                                walking_ready = false;
                               }
                               mapController.animateCamera(
                                 CameraUpdate.newCameraPosition(
@@ -438,6 +454,13 @@ class _MyMaps extends State<MyMaps> {
                                 });
                                 _calculateDistance(destination_set);
                                 walking_ready = true;
+                                Fluttertoast.showToast(
+                                  msg:
+                                      '산책 목적지를 시민공원으로 설정합니다!\n\n산책지 까지의 거리는 $_placeDistance m 입니다!',
+                                  toastLength: Toast.LENGTH_LONG,
+                                  gravity: ToastGravity.BOTTOM,
+                                  timeInSecForIosWeb: 2,
+                                );
                               }
                               //산책 시작, 상태 설정, 경로나타내는 메서드
                             },
@@ -475,6 +498,13 @@ class _MyMaps extends State<MyMaps> {
                                 });
                                 _calculateDistance(destination_set);
                                 walking_ready = true;
+                                Fluttertoast.showToast(
+                                  msg:
+                                      '산책 목적지를 유엔공원으로 설정합니다!\n\n산책지 까지의 거리는 $_placeDistance m 입니다!',
+                                  toastLength: Toast.LENGTH_LONG,
+                                  gravity: ToastGravity.BOTTOM,
+                                  timeInSecForIosWeb: 2,
+                                );
                                 //산책 시작, 상태 설정, 경로나타내는 메서드
                               }
                             },
@@ -512,6 +542,13 @@ class _MyMaps extends State<MyMaps> {
                                 });
                                 _calculateDistance(destination_set);
                                 walking_ready = true;
+                                Fluttertoast.showToast(
+                                  msg:
+                                      '산책 목적지를 광안리로 설정합니다!\n\n산책지 까지의 거리는 $_placeDistance m 입니다!',
+                                  toastLength: Toast.LENGTH_LONG,
+                                  gravity: ToastGravity.BOTTOM,
+                                  timeInSecForIosWeb: 2,
+                                );
                                 //산책 시작, 상태 설정, 경로나타내는 메서드
                               }
                             },
@@ -547,6 +584,12 @@ class _MyMaps extends State<MyMaps> {
                                 user_status.start_walk(
                                     destination_set, userlocation_global);
                                 walking_ready = false;
+                                Fluttertoast.showToast(
+                                  msg: '산책을 시작합니다!',
+                                  toastLength: Toast.LENGTH_LONG,
+                                  gravity: ToastGravity.CENTER,
+                                  timeInSecForIosWeb: 2,
+                                );
                               } else {
                                 if (status == '산책중') {
                                   user_status.end_walk();
@@ -559,6 +602,12 @@ class _MyMaps extends State<MyMaps> {
                                     if (polylines.isNotEmpty) polylines.clear();
                                     _placeDistance = null;
                                   });
+                                  Fluttertoast.showToast(
+                                    msg: '산책을 종료합니다!',
+                                    toastLength: Toast.LENGTH_LONG,
+                                    gravity: ToastGravity.CENTER,
+                                    timeInSecForIosWeb: 2,
+                                  );
                                   mapController.animateCamera(
                                     CameraUpdate.newCameraPosition(
                                       CameraPosition(
@@ -582,7 +631,11 @@ class _MyMaps extends State<MyMaps> {
             ),
             CarouselSlider(
                 options: CarouselOptions(
-                    height: statusHeight * 0.3, autoPlay: false),
+                  height: statusHeight * 0.3,
+                  autoPlay: true,
+                  autoPlayAnimationDuration: Duration(seconds: 3),
+                  autoPlayInterval: Duration(seconds: 8),
+                ),
                 items: pictureLists.map((image) {
                   return Builder(
                     builder: (BuildContext context) {

@@ -19,7 +19,7 @@ class user_history {
     walked_data.add(diff);
     walked_data.add(destination);
 
-    //지역당 총 산책시간은 shared에 저장 산책데이터는 추후 json으로 파싱해서 데베로 넣어주기
+    //TODO : 지역당 총 산책시간은 shared에 저장 산책데이터는 추후 json으로 파싱해서 데베로 넣어주기
     walked_dataset.add(walked_data);
 
     DateTime amount_walk;
