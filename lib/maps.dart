@@ -330,12 +330,6 @@ class _MyMaps extends State<MyMaps> {
       //print(nearestlocation_global.getsite());
     });
 
-    Duration myduration() {
-      if (destination_set == '') {
-        return Duration(seconds: 60);
-      } else
-        return Duration(seconds: 6);
-    }
     //주기적으로 처리할 내용 있을경우 여기서처리
     //new Timer(myduration, () {
     //setState(() {
