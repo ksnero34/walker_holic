@@ -9,14 +9,16 @@ import 'package:flutter/services.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 //import 'package:location/location.dart' as loc;
 import 'package:geolocator/geolocator.dart';
-import 'package:provider/provider.dart';
+//import 'package:provider/provider.dart';
 import 'package:walkerholic/location/getnearest.dart';
-import 'location/locationservice.dart';
+import 'package:walkerholic/status/user_status.dart';
+//import 'location/locationservice.dart';
 import 'dart:ui' as ui;
-import 'location/user_location.dart';
+//import 'location/user_location.dart';
 import 'location/getnearest.dart';
 import 'main.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'status/user_status.dart';
 //import 'package:geocoding/geocoding.dart';
 //import 'main.dart';
 //import 'main.dart';
@@ -61,7 +63,7 @@ class _MyMaps extends State<MyMaps> {
   BitmapDescriptor current_icon;
 
   String site = getnearestsite.getsite();
-  String status = '대기중';
+  String status;
   String nearestsiteimgpass = 'assets/loadings.gif';
 
   //getnearestsite nearestsite = new getnearestsite();
@@ -69,11 +71,17 @@ class _MyMaps extends State<MyMaps> {
   Set<Marker> markers = {};
   Set<Polyline> polylines = {};
 
+  bool walking_ready = false;
+
   @override
   Future<void> initState() {
     // TODO: implement initState
     super.initState();
     seticon_img();
+    if (user_status.check_status())
+      status = '산책중';
+    else
+      status = '대기중';
     //print('initstateddd');
   }
 
@@ -134,6 +142,7 @@ class _MyMaps extends State<MyMaps> {
     ));
   }
 
+  //destination 에 따라 폴리라인 그릴 좌표 반환
   List<LatLng> _createPoints(String destination) {
     final List<LatLng> points = <LatLng>[];
     if (destination == '시민공원') {
@@ -402,6 +411,7 @@ class _MyMaps extends State<MyMaps> {
                                 _placeDistance = null;
                               });
                               _calculateDistance('시민공원');
+                              walking_ready = true;
                               //산책 시작, 상태 설정, 경로나타내는 메서드
                             },
                           ),
@@ -432,6 +442,7 @@ class _MyMaps extends State<MyMaps> {
                                 _placeDistance = null;
                               });
                               _calculateDistance('유엔공원');
+                              walking_ready = true;
                               //산책 시작, 상태 설정, 경로나타내는 메서드
                             },
                           ),
@@ -462,6 +473,7 @@ class _MyMaps extends State<MyMaps> {
                                 _placeDistance = null;
                               });
                               _calculateDistance('광안리');
+                              walking_ready = true;
                               //산책 시작, 상태 설정, 경로나타내는 메서드
                             },
                           ),
@@ -488,7 +500,22 @@ class _MyMaps extends State<MyMaps> {
                               child: Icon(Icons.run_circle_outlined),
                             ),
                             onTap: () async {
-                              setState(() {});
+                              if (walking_ready) {
+                                setState(() {
+                                  status = '산책중';
+                                });
+                                user_status.start_walk();
+                                walking_ready = false;
+                              } else {
+                                if (status == '산책중') {
+                                  user_status.end_walk();
+                                  setState(() {
+                                    status = '대기중';
+                                  });
+                                } else {
+                                  //산책먼저하라는 메시지 알려주기
+                                }
+                              }
                             },
                           ),
                         ),

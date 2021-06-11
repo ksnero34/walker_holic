@@ -1,7 +1,9 @@
+import 'walk_history.dart';
+
 class user_status {
-  bool is_walking;
-  DateTime start_time, end_time;
-  Duration walked_duration;
+  static bool is_walking;
+  static DateTime start_time, end_time;
+  static Duration walked_duration;
 
   user_status() {
     is_walking = false;
@@ -9,22 +11,24 @@ class user_status {
     end_time = DateTime(0000);
   }
 
-  bool check_status() {
+  static bool check_status() {
     return is_walking;
   }
 
-  void start_walk() {
+  static void start_walk() {
     is_walking = true;
     start_time = DateTime.now();
     end_time = DateTime(0000);
     walked_duration = Duration();
   }
 
-  void end_walk() {
+  static void end_walk() {
     is_walking = false;
     end_time = DateTime.now();
 
     walked_duration = end_time.difference(start_time);
+
+    user_history.set_walked_data(start_time, end_time, walked_duration);
 
     start_time = DateTime(0000);
     end_time = DateTime(0000);

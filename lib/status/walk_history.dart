@@ -1,8 +1,8 @@
 class user_history {
-  List<dynamic> walked_data;
-  List<List> walked_dataset;
+  static List<dynamic> walked_data;
+  static List<List> walked_dataset;
 
-  void set_walked_data(DateTime start, DateTime end, Duration diff) {
+  static void set_walked_data(DateTime start, DateTime end, Duration diff) {
     walked_data.add(start);
     walked_data.add(end);
     walked_data.add(diff);
