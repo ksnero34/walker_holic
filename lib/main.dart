@@ -19,7 +19,13 @@ LatLng userlocation_global;
 //getnearestsite nearestlocation_global;
 user_status status_global;
 user_history history_global;
-void main() => runApp(MyApp());
+void main() => runApp(MaterialApp(
+      title: '부산폴짝',
+      initialRoute: '/',
+      routes: {
+        '/': (context) => MyApp(),
+      },
+    ));
 
 class MyApp extends StatelessWidget {
   @override

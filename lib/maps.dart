@@ -115,7 +115,10 @@ class _MyMaps extends State<MyMaps> {
 
   void _onMapCreated(GoogleMapController _cntlr) {
     mapController = _cntlr;
-    if (user_status.check_status()) _calculateDistance(destination_set);
+    if (user_status.check_status()) {
+      _calculateDistance(destination_set);
+      set_destinationimg(destination_set);
+    }
     /*_location.onLocationChanged.listen((l) {
       _controller.animateCamera(CameraUpdate.newCameraPosition(
         CameraPosition(target: LatLng(l.latitude, l.longitude), zoom: 15),
@@ -123,12 +126,12 @@ class _MyMaps extends State<MyMaps> {
     });*/
   }
 
-  void set_destinationimg(String destiantion) {
-    if (destiantion == '시민공원')
+  void set_destinationimg(String destination) {
+    if (destination == '시민공원')
       pictureLists = pictureLists_simin;
-    else if (destiantion == '유엔공원')
+    else if (destination == '유엔공원')
       pictureLists = pictureLists_unitedn;
-    else if (destiantion == '광안리')
+    else if (destination == '광안리')
       pictureLists = pictureLists_gwang;
     else
       pictureLists = pictureLists_init;
