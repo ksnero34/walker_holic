@@ -13,6 +13,7 @@ import 'package:walkerholic/status/user_status.dart';
 import 'package:walkerholic/status/walk_history.dart';
 import 'package:is_first_run/is_first_run.dart';
 import 'home.dart';
+import 'package:camera/camera.dart';
 
 LatLng userlocation_global;
 //getnearestsite nearestlocation_global;
@@ -21,13 +22,17 @@ user_history history_global;
 
 SharedPreferences key_val;
 
-void main() => runApp(MaterialApp(
-      title: '부산폴짝',
-      initialRoute: '/',
-      routes: {
-        '/': (context) => MyApp(),
-      },
-    ));
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  runApp(MaterialApp(
+    title: '부산폴짝',
+    initialRoute: '/',
+    routes: {
+      '/': (context) => MyApp(),
+    },
+  ));
+}
 
 class MyApp extends StatelessWidget {
   @override
@@ -50,7 +55,7 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  List<Widget> _pages = [camera(), home(), badge()];
+  List<Widget> _pages = [Camera(), home(), badge()];
 
   Widget mytabbuilder(BuildContext ctx, int index) {
     return _pages[index];
