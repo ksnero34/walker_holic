@@ -31,8 +31,8 @@ class _badgeState extends State<badge> {
         status = '대기중';
       });
     // String start_time = DateFormat('yy/mm/dd Hm').format(start);
-    print('asdfasdf');
-    print(DateTime.parse(key_val.getString('시민공원')));
+    //print('asdfasdf');
+    //print(DateTime.parse(key_val.getString('시민공원')));
     // if ((DateTime.parse(key_val.getString('시민공원')) == null) ||
     //     (DateTime.parse(key_val.getString('시민공원')) == ''))
     //   simin_history = '00:00:00';

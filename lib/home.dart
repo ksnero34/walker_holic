@@ -64,10 +64,12 @@ class _homeState extends State<home> {
           height: statusHeight * 0.01,
         ),
         Container(
-          height: statusHeight * 0.03,
           child: Text(
             '공지사항',
           ),
+        ),
+        SizedBox(
+          height: statusHeight * 0.01,
         ),
         Container(
           child: FutureBuilder<List<notice>>(
@@ -85,8 +87,10 @@ class _homeState extends State<home> {
           height: statusHeight * 0.01,
         ),
         Container(
-          height: statusHeight * 0.03,
           child: Text('최근 민원 사항'),
+        ),
+        SizedBox(
+          height: statusHeight * 0.01,
         ),
         Container(
           child: FutureBuilder<List<issue>>(
