@@ -31,21 +31,26 @@ class _badgeState extends State<badge> {
         status = '대기중';
       });
     // String start_time = DateFormat('yy/mm/dd Hm').format(start);
-    if (DateTime.parse(key_val.getString('시민공원')) != null)
-      simin_history =
-          DateFormat('Hms').format(DateTime.parse(key_val.getString('시민공원')));
-    else
-      simin_history = '00:00:00';
-    if (DateTime.parse(key_val.getString('유엔공원')) != null)
-      unitedn_history =
-          DateFormat('Hms').format(DateTime.parse(key_val.getString('유엔공원')));
-    else
-      unitedn_history = '00:00:00';
-    if (DateTime.parse(key_val.getString('광안리')) != null)
-      gwang_history =
-          DateFormat('Hms').format(DateTime.parse(key_val.getString('광안리')));
-    else
-      gwang_history = '00:00:00';
+    print('asdfasdf');
+    print(DateTime.parse(key_val.getString('시민공원')));
+    // if ((DateTime.parse(key_val.getString('시민공원')) == null) ||
+    //     (DateTime.parse(key_val.getString('시민공원')) == ''))
+    //   simin_history = '00:00:00';
+    // else
+    simin_history =
+        DateFormat('Hms').format(DateTime.parse(key_val.getString('시민공원')));
+    // if (DateTime.parse(key_val.getString('유엔공원')) == null ||
+    //     (DateTime.parse(key_val.getString('유엔공원')) == ''))
+    //   unitedn_history = '00:00:00';
+    // else
+    unitedn_history =
+        DateFormat('Hms').format(DateTime.parse(key_val.getString('유엔공원')));
+    // if (DateTime.parse(key_val.getString('광안리')) == null ||
+    //     (DateTime.parse(key_val.getString('광안리')) == ''))
+    //   gwang_history = '00:00:00';
+    // else
+    gwang_history =
+        DateFormat('Hms').format(DateTime.parse(key_val.getString('광안리')));
   }
 
   @override

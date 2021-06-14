@@ -11,7 +11,7 @@ import 'package:background_location/background_location.dart';
 import 'package:walkerholic/location/getnearest.dart';
 import 'package:walkerholic/status/user_status.dart';
 import 'package:walkerholic/status/walk_history.dart';
-
+import 'package:is_first_run/is_first_run.dart';
 import 'home.dart';
 
 LatLng userlocation_global;
@@ -77,6 +77,13 @@ class _MyHomePageState extends State<MyHomePage> {
 
   Future<void> set_keyval() async {
     key_val = await SharedPreferences.getInstance();
+    bool firstRun = await IsFirstRun.isFirstRun();
+    if (firstRun) {
+      String inittime = DateTime.parse('0000-01-01T00:00:00.000000').toString();
+      key_val.setString('시민공원', inittime);
+      key_val.setString('유엔공원', inittime);
+      key_val.setString('광안리', inittime);
+    }
   }
 
   @override

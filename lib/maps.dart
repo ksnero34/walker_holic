@@ -612,6 +612,12 @@ class _MyMaps extends State<MyMaps> {
                                   );
                                 } else {
                                   //산책먼저하라는 메시지 알려주기
+                                  Fluttertoast.showToast(
+                                    msg: '목적지를 먼저 설정해 주세요!',
+                                    toastLength: Toast.LENGTH_LONG,
+                                    gravity: ToastGravity.CENTER,
+                                    timeInSecForIosWeb: 2,
+                                  );
                                 }
                               }
                             },
