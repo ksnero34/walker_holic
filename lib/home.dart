@@ -1,7 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:walkerholic/board/notice.dart';
+import 'package:http/http.dart' as http;
+import 'board/latestissue.dart';
 import 'maps.dart';
-//import 'main.dart';
 
 class home extends StatefulWidget {
   @override
@@ -27,7 +29,7 @@ class _homeState extends State<home> {
 
     return ListView(children: <Widget>[
       SizedBox(
-        height: 200,
+        height: statusHeight * 0.1,
       ),
       Column(mainAxisAlignment: MainAxisAlignment.center, children: [
         //Padding(padding: EdgeInsets.only(top: statusBarHeight)),
@@ -59,8 +61,45 @@ class _homeState extends State<home> {
           ),
         ),
         SizedBox(
-          height: statusHeight * 0.2,
-        )
+          height: statusHeight * 0.01,
+        ),
+        Container(
+          height: statusHeight * 0.03,
+          child: Text(
+            '공지사항',
+          ),
+        ),
+        Container(
+          child: FutureBuilder<List<notice>>(
+              future: fetchnotice(http.Client()),
+              builder: (context, snapshot) {
+                if (snapshot.hasError) print(snapshot.error);
+
+                return snapshot.hasData
+                    ? noticeList(notices: snapshot.data)
+                    : Center(child: CircularProgressIndicator());
+              }),
+          height: statusHeight * 0.3,
+        ),
+        SizedBox(
+          height: statusHeight * 0.01,
+        ),
+        Container(
+          height: statusHeight * 0.03,
+          child: Text('최근 민원 사항'),
+        ),
+        Container(
+          child: FutureBuilder<List<issue>>(
+              future: fetchissues(http.Client()),
+              builder: (context, snapshot) {
+                if (snapshot.hasError) print(snapshot.error);
+
+                return snapshot.hasData
+                    ? issueList(issues: snapshot.data)
+                    : Center(child: CircularProgressIndicator());
+              }),
+          height: statusHeight * 0.3,
+        ),
       ]),
     ]);
   }
