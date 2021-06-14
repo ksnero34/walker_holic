@@ -32,6 +32,22 @@ class issue {
   }
 }
 
+Widget issue_pressed(BuildContext context, String title, String subject) {
+  return AlertDialog(
+    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.0)),
+    title: Text(title),
+    content: SingleChildScrollView(child: Text(subject)),
+    actions: <Widget>[
+      new TextButton(
+        child: Text("Close"),
+        onPressed: () {
+          Navigator.of(context).pop();
+        },
+      ),
+    ],
+  );
+}
+
 class issueList extends StatelessWidget {
   List<issue> issues;
 
@@ -44,18 +60,34 @@ class issueList extends StatelessWidget {
     //   leading: Icon(Icons.notifications_active),
     //   title : Text(notices[index]),
     // );
-    return ListView.builder(
-        itemCount: issues.length,
-        itemBuilder: (context, index) {
-          return Material(
-            child: ListTile(
-              leading: Icon(Icons.warning),
-              title: Text(issues[index].title),
-              subtitle: Text(issues[index].body),
-              //trailing: Text(notices[index].body),
-              isThreeLine: true,
-            ),
-          );
-        });
+    return Localizations(
+        locale: const Locale('en', 'US'),
+        delegates: <LocalizationsDelegate<dynamic>>[
+          DefaultWidgetsLocalizations.delegate,
+          DefaultMaterialLocalizations.delegate,
+        ],
+        child: ListView.builder(
+            itemCount: issues.length,
+            itemBuilder: (context, index) {
+              return Material(
+                child: ListTile(
+                  leading: Icon(Icons.warning),
+                  title: Text(issues[index].title),
+                  subtitle: Text(issues[index].body),
+                  //trailing: Text(notices[index].body),
+                  onTap: () {
+                    showDialog(
+                      context: context,
+                      //barrierDismissible: false,
+                      builder: (BuildContext context) {
+                        return issue_pressed(
+                            context, issues[index].title, issues[index].body);
+                      },
+                    );
+                  },
+                  isThreeLine: true,
+                ),
+              );
+            }));
   }
 }

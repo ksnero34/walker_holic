@@ -183,7 +183,9 @@ class DisplayPictureScreen extends StatelessWidget {
         children: [
           Padding(padding: EdgeInsets.only(top: statusBarHeight)),
           Container(
-              height: statusHeight * 0.7, child: Image.file(File(imagePath))),
+              alignment: Alignment.center,
+              height: statusHeight * 0.7,
+              child: Image.file(File(imagePath))),
         ],
       ),
     );

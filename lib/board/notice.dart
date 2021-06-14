@@ -37,6 +37,22 @@ class noticeList extends StatelessWidget {
 
   noticeList({Key key, this.notices}) : super(key: key);
 
+  Widget notice_pressed(BuildContext context, String title, String subject) {
+    return AlertDialog(
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.0)),
+      title: Text(title),
+      content: SingleChildScrollView(child: Text(subject)),
+      actions: <Widget>[
+        new TextButton(
+          child: Text("Close"),
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+        ),
+      ],
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
@@ -44,18 +60,35 @@ class noticeList extends StatelessWidget {
     //   leading: Icon(Icons.notifications_active),
     //   title : Text(notices[index]),
     // );
-    return ListView.builder(
-        itemCount: notices.length,
-        itemBuilder: (context, index) {
-          return Material(
-            child: ListTile(
-              leading: Icon(Icons.notifications_active),
-              title: Text(notices[index].title),
-              subtitle: Text(notices[index].body),
-              //trailing: Text(notices[index].body),
-              isThreeLine: true,
-            ),
-          );
-        });
+    return Localizations(
+      locale: const Locale('en', 'US'),
+      delegates: <LocalizationsDelegate<dynamic>>[
+        DefaultWidgetsLocalizations.delegate,
+        DefaultMaterialLocalizations.delegate,
+      ],
+      child: ListView.builder(
+          itemCount: notices.length,
+          itemBuilder: (context, index) {
+            return Material(
+              child: ListTile(
+                leading: Icon(Icons.notifications_active),
+                title: Text(notices[index].title),
+                subtitle: Text(notices[index].body),
+                //trailing: Text(notices[index].body),
+                onTap: () {
+                  showDialog(
+                    context: context,
+                    //barrierDismissible: false,
+                    builder: (BuildContext context) {
+                      return notice_pressed(
+                          context, notices[index].title, notices[index].body);
+                    },
+                  );
+                },
+                isThreeLine: true,
+              ),
+            );
+          }),
+    );
   }
 }
