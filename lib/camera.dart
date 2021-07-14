@@ -142,9 +142,10 @@ class CameraState extends State<Camera> with WidgetsBindingObserver {
                 // If the picture was taken, display it on a new screen.
                 await Navigator.of(context).push(
                   MaterialPageRoute(
-                    builder: (context) => DisplayPictureScreen(
+                    builder: (context) => report_form(
                       // Pass the automatically generated path to
                       // the DisplayPictureScreen widget.
+                      img_set: true,
                       imagePath: image.path,
                     ),
                   ),
@@ -163,7 +164,7 @@ class CameraState extends State<Camera> with WidgetsBindingObserver {
   }
 }
 
-// A widget that displays the picture taken by the user.
+// 사진을 확인하고 다시 찍게 할지 아니면 바로 보고 폼으로 보낼지 결정해야함.
 class DisplayPictureScreen extends StatelessWidget {
   final String imagePath;
 
@@ -199,8 +200,14 @@ class DisplayPictureScreen extends StatelessWidget {
                   gravity: ToastGravity.CENTER,
                   timeInSecForIosWeb: 1,
                 );
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (ctx) => report_form()));
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (ctx) => report_form(
+                            img_set: true,
+                            imagePath: imagePath,
+                          )),
+                );
               })
         ],
       ),

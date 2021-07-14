@@ -1,10 +1,16 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:walkerholic/camera.dart';
 
 class report_form extends StatefulWidget {
+  bool img_set;
+  String imagePath;
+  report_form({@required this.img_set, @required this.imagePath});
   @override
-  _report_formState createState() => _report_formState();
+  _report_formState createState() =>
+      _report_formState(img_set: img_set, imagePath: imagePath);
 }
 
 class _report_formState extends State<report_form> {
@@ -12,12 +18,20 @@ class _report_formState extends State<report_form> {
   final contenttext_cntr = TextEditingController();
   String title_text = '';
   String content_text = '';
+  final String imagePath;
+  final bool img_set;
+  _report_formState({this.img_set, this.imagePath});
   Image report_img;
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
+    print(imagePath);
+    if (img_set)
+      report_img = Image.file(File(imagePath));
+    else
+      report_img = Image.asset('assets/img_gwang.jpg');
   }
 
   @override
@@ -62,6 +76,11 @@ class _report_formState extends State<report_form> {
                                 content_text = contenttext_cntr.text;
                               });
                             }),
+                      ),
+                      Container(
+                        margin: EdgeInsets.all(8),
+                        height: 200,
+                        child: report_img,
                       ),
                       FloatingActionButton(
                           child: Icon(Icons.upload_file),

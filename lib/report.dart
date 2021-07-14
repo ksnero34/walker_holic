@@ -57,7 +57,11 @@ class report_State extends State<report> {
                 onTap: () async {
                   await Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (ctx) => report_form()),
+                    MaterialPageRoute(
+                        builder: (ctx) => report_form(
+                              img_set: false,
+                              imagePath: '',
+                            )),
                   );
                 },
               ),
