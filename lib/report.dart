@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:walkerholic/report_form.dart';
 import 'board/latestissue.dart';
 
 class report extends StatefulWidget {
@@ -19,29 +20,50 @@ class report_State extends State<report> {
         MediaQuery.of(context).padding.bottom); // 기기의 화면크기
 
     return Column(
+      mainAxisAlignment: MainAxisAlignment.start,
       children: [
         Padding(padding: EdgeInsets.only(top: statusBarHeight)),
-        ListView(children: <Widget>[
-          // 리포트 양식 만들어야함
-          Container(
-            child: Text('최근 민원 사항'),
-          ),
-          SizedBox(
-            height: statusHeight * 0.01,
-          ),
-          Container(
-            child: FutureBuilder<List<issue>>(
-                future: fetchissues(http.Client()),
-                builder: (context, snapshot) {
-                  if (snapshot.hasError) print(snapshot.error);
+        Text('최근 민원 사항'),
+        SizedBox(
+          height: statusHeight * 0.01,
+        ),
+        Container(
+          padding: EdgeInsets.only(left: 20, right: 20),
+          child: FutureBuilder<List<issue>>(
+              future: fetchissues(http.Client()),
+              builder: (context, snapshot) {
+                if (snapshot.hasError) print(snapshot.error);
 
-                  return snapshot.hasData
-                      ? issueList(issues: snapshot.data)
-                      : Center(child: CircularProgressIndicator());
-                }),
-            height: statusHeight * 0.3,
-          ),
-        ]),
+                return snapshot.hasData
+                    ? issueList(issues: snapshot.data)
+                    : Center(child: CircularProgressIndicator());
+              }),
+          height: statusHeight * 0.4,
+        ),
+        SizedBox(
+          height: statusHeight * 0.1,
+        ),
+        Text('민원 신고'),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Material(
+              child: InkWell(
+                child: SizedBox(
+                  width: 56,
+                  height: 56,
+                  child: Icon(Icons.playlist_add_outlined),
+                ),
+                onTap: () async {
+                  await Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (ctx) => report_form()),
+                  );
+                },
+              ),
+            ),
+          ],
+        ),
         SizedBox(
           height: statusHeight * 0.1,
         ),

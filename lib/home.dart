@@ -72,6 +72,7 @@ class _homeState extends State<home> {
           height: statusHeight * 0.01,
         ),
         Container(
+          padding: EdgeInsets.only(left: 20, right: 20),
           child: FutureBuilder<List<notice>>(
               future: fetchnotice(http.Client()),
               builder: (context, snapshot) {
@@ -85,24 +86,6 @@ class _homeState extends State<home> {
         ),
         SizedBox(
           height: statusHeight * 0.01,
-        ),
-        Container(
-          child: Text('최근 민원 사항'),
-        ),
-        SizedBox(
-          height: statusHeight * 0.01,
-        ),
-        Container(
-          child: FutureBuilder<List<issue>>(
-              future: fetchissues(http.Client()),
-              builder: (context, snapshot) {
-                if (snapshot.hasError) print(snapshot.error);
-
-                return snapshot.hasData
-                    ? issueList(issues: snapshot.data)
-                    : Center(child: CircularProgressIndicator());
-              }),
-          height: statusHeight * 0.3,
         ),
       ]),
     ]);

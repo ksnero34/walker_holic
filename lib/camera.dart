@@ -4,10 +4,12 @@ import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
 import 'package:path/path.dart' show join;
 import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:walkerholic/report_form.dart';
 import 'main.dart';
 
 import 'dart:async';
@@ -73,7 +75,7 @@ class CameraState extends State<Camera> with WidgetsBindingObserver {
         _imagesFolder.createSync();
       }
 
-      final String path = '${_imagesFolder.path}/$fileName.png';
+      //final String path = '${_imagesFolder.path}/$fileName.png';
       await _controller.takePicture();
     } catch (e) {
       print(e);
@@ -136,6 +138,7 @@ class CameraState extends State<Camera> with WidgetsBindingObserver {
                 // where it was saved.
                 final image = await _controller.takePicture();
 
+                dispose();
                 // If the picture was taken, display it on a new screen.
                 await Navigator.of(context).push(
                   MaterialPageRoute(
@@ -182,10 +185,23 @@ class DisplayPictureScreen extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Padding(padding: EdgeInsets.only(top: statusBarHeight)),
+          Text('제보할 사진 확인'),
           Container(
               alignment: Alignment.center,
               height: statusHeight * 0.7,
               child: Image.file(File(imagePath))),
+          FloatingActionButton(
+              child: Icon(Icons.upload_file),
+              onPressed: () {
+                Fluttertoast.showToast(
+                  msg: '내용을 확인하고 제보 버튼을 눌러주세요!',
+                  toastLength: Toast.LENGTH_LONG,
+                  gravity: ToastGravity.CENTER,
+                  timeInSecForIosWeb: 1,
+                );
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (ctx) => report_form()));
+              })
         ],
       ),
     );

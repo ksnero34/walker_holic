@@ -9,6 +9,8 @@ import 'package:walkerholic/camera.dart';
 //import 'package:walkerholic/location/user_location.dart';
 import 'package:background_location/background_location.dart';
 import 'package:walkerholic/location/getnearest.dart';
+import 'package:walkerholic/report.dart';
+import 'package:walkerholic/report_form.dart';
 import 'package:walkerholic/status/user_status.dart';
 import 'package:walkerholic/status/walk_history.dart';
 import 'package:is_first_run/is_first_run.dart';
@@ -30,6 +32,7 @@ void main() async {
     initialRoute: '/',
     routes: {
       '/': (context) => MyApp(),
+      '/reportform': (context) => report(),
     },
   ));
 }
@@ -55,7 +58,7 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  List<Widget> _pages = [Camera(), home(), badge()];
+  List<Widget> _pages = [report(), home(), badge()];
 
   Widget mytabbuilder(BuildContext ctx, int index) {
     return _pages[index];
