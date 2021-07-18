@@ -58,9 +58,11 @@ class report_State extends State<report> {
                   await Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (ctx) => report_form(
+                        builder: (context) => report_form(
                               img_set: false,
                               imagePath: '',
+                              title_text: '',
+                              content_text: '',
                             )),
                   );
                 },

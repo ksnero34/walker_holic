@@ -7,20 +7,31 @@ import 'package:walkerholic/camera.dart';
 class report_form extends StatefulWidget {
   bool img_set;
   String imagePath;
-  report_form({@required this.img_set, @required this.imagePath});
+  String title_text;
+  String content_text;
+  report_form({
+    @required this.img_set,
+    @required this.imagePath,
+    @required this.title_text,
+    @required this.content_text,
+  });
   @override
-  _report_formState createState() =>
-      _report_formState(img_set: img_set, imagePath: imagePath);
+  _report_formState createState() => _report_formState(
+      img_set: img_set,
+      imagePath: imagePath,
+      title_text: title_text,
+      content_text: content_text);
 }
 
 class _report_formState extends State<report_form> {
   final titletext_cntr = TextEditingController();
   final contenttext_cntr = TextEditingController();
-  String title_text = '';
-  String content_text = '';
+  String title_text;
+  String content_text;
   final String imagePath;
   final bool img_set;
-  _report_formState({this.img_set, this.imagePath});
+  _report_formState(
+      {this.img_set, this.imagePath, this.title_text, this.content_text});
   Image report_img;
 
   @override
@@ -32,6 +43,9 @@ class _report_formState extends State<report_form> {
       report_img = Image.file(File(imagePath));
     else
       report_img = Image.asset('assets/img_gwang.jpg');
+
+    titletext_cntr.text = title_text;
+    contenttext_cntr.text = content_text;
   }
 
   @override
@@ -83,24 +97,47 @@ class _report_formState extends State<report_form> {
                         child: report_img,
                       ),
                       FloatingActionButton(
-                          child: Icon(Icons.upload_file),
+                          heroTag: null,
+                          child: Icon(Icons.camera),
                           onPressed: () {
-                            Navigator.push(context,
-                                MaterialPageRoute(builder: (ctx) => Camera()));
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (ctx) => Camera(
+                                        title_text: titletext_cntr.text,
+                                        content_text: contenttext_cntr.text)));
                           }),
                       FloatingActionButton(
+                          heroTag: null,
                           child: Icon(Icons.upload_file),
                           onPressed: () {
                             //필수 내용 들어간지 확인후 처리할 메서드 추가필요.
-
-                            Fluttertoast.showToast(
-                              msg: '제보를 완료하였습니다!',
-                              toastLength: Toast.LENGTH_LONG,
-                              gravity: ToastGravity.CENTER,
-                              timeInSecForIosWeb: 1,
-                            );
-                            Navigator.popUntil(
-                                context, ModalRoute.withName('/'));
+                            if (!img_set) {
+                              Fluttertoast.showToast(
+                                msg: '제보사진촬영은 필수 입니다!',
+                                toastLength: Toast.LENGTH_LONG,
+                                gravity: ToastGravity.CENTER,
+                                timeInSecForIosWeb: 1,
+                              );
+                            } else if ((contenttext_cntr.text == '') ||
+                                (titletext_cntr.text == '')) {
+                              Fluttertoast.showToast(
+                                msg: '제목과 내용은 필수 입력사항입니다!',
+                                toastLength: Toast.LENGTH_LONG,
+                                gravity: ToastGravity.CENTER,
+                                timeInSecForIosWeb: 1,
+                              );
+                            } else {
+                              //
+                              Fluttertoast.showToast(
+                                msg: '제보를 완료하였습니다!',
+                                toastLength: Toast.LENGTH_LONG,
+                                gravity: ToastGravity.CENTER,
+                                timeInSecForIosWeb: 1,
+                              );
+                              Navigator.popUntil(
+                                  context, ModalRoute.withName('/'));
+                            }
                           }),
                     ],
                   ),

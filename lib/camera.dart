@@ -21,10 +21,17 @@ import 'package:flutter/material.dart';
 // A screen that allows users to take a picture using a given camera.
 class Camera extends StatefulWidget {
   final loadingWidget;
-  Camera({this.loadingWidget});
+  final title_text;
+  final content_text;
+
+  Camera(
+      {this.loadingWidget,
+      @required this.title_text,
+      @required this.content_text});
 
   @override
-  CameraState createState() => CameraState();
+  CameraState createState() =>
+      CameraState(title_text: title_text, content_text: content_text);
 }
 
 class CameraState extends State<Camera> with WidgetsBindingObserver {
@@ -34,6 +41,9 @@ class CameraState extends State<Camera> with WidgetsBindingObserver {
   int _selected = 0;
   Future<void> _initializeControllerFuture;
 
+  final title_text;
+  final content_text;
+  CameraState({this.title_text, this.content_text});
   @override
   void initState() {
     super.initState();
@@ -130,6 +140,7 @@ class CameraState extends State<Camera> with WidgetsBindingObserver {
             onPressed: () async {
               // Take the Picture in a try / catch block. If anything goes wrong,
               // catch the error.
+
               try {
                 // Ensure that the camera is initialized.
                 await _initializeControllerFuture;
@@ -147,6 +158,8 @@ class CameraState extends State<Camera> with WidgetsBindingObserver {
                       // the DisplayPictureScreen widget.
                       img_set: true,
                       imagePath: image.path,
+                      title_text: title_text,
+                      content_text: content_text,
                     ),
                   ),
                 );
@@ -165,6 +178,7 @@ class CameraState extends State<Camera> with WidgetsBindingObserver {
 }
 
 // 사진을 확인하고 다시 찍게 할지 아니면 바로 보고 폼으로 보낼지 결정해야함.
+// 지금은 사용 안함
 class DisplayPictureScreen extends StatelessWidget {
   final String imagePath;
 
