@@ -112,10 +112,11 @@ class CameraState extends State<Camera> with WidgetsBindingObserver {
         // You must wait until the controller is initialized before displaying the
         // camera preview. Use a FutureBuilder to display a loading spinner until the
         // controller has finished initializing.
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Padding(padding: EdgeInsets.only(top: statusBarHeight)),
           Container(
-              height: statusHeight * 0.6,
+              height: statusHeight * 0.7,
               child: FutureBuilder<void>(
                 future: _initializeControllerFuture,
                 builder: (context, snapshot) {
