@@ -41,7 +41,7 @@ class _report_formState extends State<report_form> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    print(imagePath);
+    //print(imagePath);
     if (img_set)
       report_img = Image.file(File(imagePath));
     else
@@ -70,7 +70,7 @@ class _report_formState extends State<report_form> {
           headers: <String, String>{"Content-Type": "application/json"},
           body: body);
       print(response.statusCode);
-      print(data);
+      //print(userlocation_global.latitude);
     } on Exception catch (e) {
       // TODO
       print(e);
