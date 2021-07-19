@@ -116,7 +116,7 @@ class CameraState extends State<Camera> with WidgetsBindingObserver {
         children: [
           Padding(padding: EdgeInsets.only(top: statusBarHeight)),
           Container(
-              height: statusHeight * 0.7,
+              height: statusHeight * 0.8,
               child: FutureBuilder<void>(
                 future: _initializeControllerFuture,
                 builder: (context, snapshot) {
@@ -134,7 +134,7 @@ class CameraState extends State<Camera> with WidgetsBindingObserver {
                 },
               )),
           SizedBox(
-            height: statusHeight * 0.02,
+            height: statusHeight * 0.01,
           ),
           FloatingActionButton(
             // Provide an onPressed callback.
@@ -172,7 +172,7 @@ class CameraState extends State<Camera> with WidgetsBindingObserver {
             child: const Icon(Icons.camera_alt),
           ),
           SizedBox(
-            height: statusHeight * 0.1,
+            height: statusHeight * 0.01,
           ),
         ]);
   }
