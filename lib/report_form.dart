@@ -64,6 +64,7 @@ class _report_formState extends State<report_form> {
         "image": base64img,
         "latitude": userlocation_global.latitude,
         "longitude": userlocation_global.longitude,
+        "date": DateTime.now().toString(),
       };
       var body = json.encode(data);
       http.Response response = await http.post(uri,
