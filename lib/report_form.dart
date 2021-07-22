@@ -1,8 +1,11 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:walkerholic/camera.dart';
+import 'package:http/http.dart' as http;
+import 'package:walkerholic/main.dart';
 
 class report_form extends StatefulWidget {
   bool img_set;
@@ -38,14 +41,41 @@ class _report_formState extends State<report_form> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    print(imagePath);
+    //print(imagePath);
     if (img_set)
       report_img = Image.file(File(imagePath));
     else
-      report_img = Image.asset('assets/img_gwang.jpg');
+      report_img = Image.asset('assets/loadings.gif');
 
     titletext_cntr.text = title_text;
     contenttext_cntr.text = content_text;
+  }
+
+  Future<void> upload_server(String title, String content) async {
+    try {
+      String url = 'http://211.219.250.41/input';
+      var uri = Uri.parse(url);
+      List<int> img_bytes = File(imagePath).readAsBytesSync();
+      String base64img = base64Encode(img_bytes);
+      var data = {
+        "type": "report",
+        "title": title,
+        "content": content,
+        "image": base64img,
+        "latitude": userlocation_global.latitude,
+        "longitude": userlocation_global.longitude,
+        "date": DateTime.now().toString(),
+      };
+      var body = json.encode(data);
+      http.Response response = await http.post(uri,
+          headers: <String, String>{"Content-Type": "application/json"},
+          body: body);
+      print(response.statusCode);
+      //print(userlocation_global.latitude);
+    } on Exception catch (e) {
+      // TODO
+      print(e);
+    }
   }
 
   @override
@@ -64,6 +94,12 @@ class _report_formState extends State<report_form> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
                       Container(
+                          margin: EdgeInsets.all(5),
+                          child: Text(
+                            '민원작성',
+                            textScaleFactor: 5,
+                          )),
+                      Container(
                         margin: EdgeInsets.all(8),
                         child: TextField(
                             controller: titletext_cntr,
@@ -79,8 +115,12 @@ class _report_formState extends State<report_form> {
                       ),
                       Container(
                         margin: EdgeInsets.all(8),
+                        height: 150,
                         child: TextField(
                             controller: contenttext_cntr,
+                            keyboardType: TextInputType.multiline,
+                            minLines: 1,
+                            maxLines: null,
                             decoration: InputDecoration(
                               border: OutlineInputBorder(),
                               labelText: '민원 내용',
@@ -96,49 +136,57 @@ class _report_formState extends State<report_form> {
                         height: 200,
                         child: report_img,
                       ),
-                      FloatingActionButton(
-                          heroTag: null,
-                          child: Icon(Icons.camera),
-                          onPressed: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (ctx) => Camera(
-                                        title_text: titletext_cntr.text,
-                                        content_text: contenttext_cntr.text)));
-                          }),
-                      FloatingActionButton(
-                          heroTag: null,
-                          child: Icon(Icons.upload_file),
-                          onPressed: () {
-                            //필수 내용 들어간지 확인후 처리할 메서드 추가필요.
-                            if (!img_set) {
-                              Fluttertoast.showToast(
-                                msg: '제보사진촬영은 필수 입니다!',
-                                toastLength: Toast.LENGTH_LONG,
-                                gravity: ToastGravity.CENTER,
-                                timeInSecForIosWeb: 1,
-                              );
-                            } else if ((contenttext_cntr.text == '') ||
-                                (titletext_cntr.text == '')) {
-                              Fluttertoast.showToast(
-                                msg: '제목과 내용은 필수 입력사항입니다!',
-                                toastLength: Toast.LENGTH_LONG,
-                                gravity: ToastGravity.CENTER,
-                                timeInSecForIosWeb: 1,
-                              );
-                            } else {
-                              //
-                              Fluttertoast.showToast(
-                                msg: '제보를 완료하였습니다!',
-                                toastLength: Toast.LENGTH_LONG,
-                                gravity: ToastGravity.CENTER,
-                                timeInSecForIosWeb: 1,
-                              );
-                              Navigator.popUntil(
-                                  context, ModalRoute.withName('/'));
-                            }
-                          }),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          FloatingActionButton(
+                              heroTag: null,
+                              child: Icon(Icons.camera),
+                              onPressed: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (ctx) => Camera(
+                                            title_text: titletext_cntr.text,
+                                            content_text:
+                                                contenttext_cntr.text)));
+                              }),
+                          FloatingActionButton(
+                              heroTag: null,
+                              child: Icon(Icons.upload_file),
+                              onPressed: () async {
+                                //필수 내용 들어간지 확인후 처리할 메서드 추가필요.
+                                if (!img_set) {
+                                  Fluttertoast.showToast(
+                                    msg: '제보사진촬영은 필수 입니다!',
+                                    toastLength: Toast.LENGTH_LONG,
+                                    gravity: ToastGravity.CENTER,
+                                    timeInSecForIosWeb: 1,
+                                  );
+                                } else if ((contenttext_cntr.text == '') ||
+                                    (titletext_cntr.text == '')) {
+                                  Fluttertoast.showToast(
+                                    msg: '제목과 내용은 필수 입력사항입니다!',
+                                    toastLength: Toast.LENGTH_LONG,
+                                    gravity: ToastGravity.CENTER,
+                                    timeInSecForIosWeb: 1,
+                                  );
+                                } else {
+                                  //
+                                  await upload_server(titletext_cntr.text,
+                                      contenttext_cntr.text);
+                                  Fluttertoast.showToast(
+                                    msg: '제보를 완료하였습니다!',
+                                    toastLength: Toast.LENGTH_LONG,
+                                    gravity: ToastGravity.CENTER,
+                                    timeInSecForIosWeb: 1,
+                                  );
+                                  Navigator.popUntil(
+                                      context, ModalRoute.withName('/'));
+                                }
+                              }),
+                        ],
+                      ),
                     ],
                   ),
                 ))));

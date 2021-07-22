@@ -36,7 +36,9 @@ class _homeState extends State<home> {
         //SizedBox(
         //height: statusHeight * 0.05,
         //),
-
+        SizedBox(
+          child: Text('Go for walk'),
+        ),
         GestureDetector(
           onTap: () {
             //print('pressedddd');
