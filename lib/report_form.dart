@@ -70,6 +70,7 @@ class _report_formState extends State<report_form> {
       http.Response response = await http.post(uri,
           headers: <String, String>{"Content-Type": "application/json"},
           body: body);
+      print(body);
       print(response.statusCode);
       //print(userlocation_global.latitude);
     } on Exception catch (e) {

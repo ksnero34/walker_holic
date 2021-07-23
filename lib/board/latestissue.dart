@@ -4,10 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
 Future<List<issue>> fetchissues(http.Client client) async {
-  String url = 'https://jsonplaceholder.typicode.com/photos';
+  String url = 'http://211.219.250.41/walk_data';
   final response = await client.get(Uri.parse(url));
-
-  return compute(parseissues, response.body);
+  final utfdata = utf8.decode(response.bodyBytes);
+  return compute(parseissues, utfdata);
 }
 
 List<issue> parseissues(String responseBody) {
