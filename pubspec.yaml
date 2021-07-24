@@ -71,6 +71,9 @@ flutter:
      - assets/map_nam.png
      - assets/map_soo.png
      - assets/ic_icon.png
+     - assets/simin_icon.png
+     - assets/gwang_icon.png
+     - assets/unitedn_icon.png
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see

@@ -377,12 +377,12 @@ class _MyMaps extends State<MyMaps> {
                       padding: const EdgeInsets.only(right: 10.0, bottom: 10.0),
                       child: ClipOval(
                         child: Material(
-                          color: Colors.orange[100], // button color
+                          color: Colors.white54, // button color
                           child: InkWell(
-                            splashColor: Colors.orange, // inkwell color
+                            splashColor: Colors.white, // inkwell color
                             child: SizedBox(
-                              width: 56,
-                              height: 56,
+                              width: 65,
+                              height: 65,
                               child: Icon(Icons.my_location),
                             ),
                             onTap: () {
@@ -431,9 +431,9 @@ class _MyMaps extends State<MyMaps> {
                           child: InkWell(
                             splashColor: Colors.orange, // inkwell color
                             child: SizedBox(
-                              width: 56,
-                              height: 56,
-                              child: Icon(Icons.run_circle_outlined),
+                              width: 65,
+                              height: 65,
+                              child: Image.asset('assets/simin_icon.png'),
                             ),
                             onTap: () async {
                               if (status != '산책중') {
@@ -475,9 +475,9 @@ class _MyMaps extends State<MyMaps> {
                           child: InkWell(
                             splashColor: Colors.orange, // inkwell color
                             child: SizedBox(
-                              width: 56,
-                              height: 56,
-                              child: Icon(Icons.run_circle_outlined),
+                              width: 65,
+                              height: 65,
+                              child: Image.asset('assets/unitedn_icon.png'),
                             ),
                             onTap: () async {
                               if (status != '산책중') {
@@ -519,9 +519,9 @@ class _MyMaps extends State<MyMaps> {
                           child: InkWell(
                             splashColor: Colors.orange, // inkwell color
                             child: SizedBox(
-                              width: 56,
-                              height: 56,
-                              child: Icon(Icons.run_circle_outlined),
+                              width: 65,
+                              height: 65,
+                              child: Image.asset('assets/gwang_icon.png'),
                             ),
                             onTap: () async {
                               if (status != '산책중') {
@@ -561,13 +561,13 @@ class _MyMaps extends State<MyMaps> {
                       padding: const EdgeInsets.only(left: 10.0, bottom: 10.0),
                       child: ClipOval(
                         child: Material(
-                          color: Colors.orange[100], // button color
+                          color: Colors.white54, // button color
                           child: InkWell(
-                            splashColor: Colors.orange, // inkwell color
+                            splashColor: Colors.white, // inkwell color
                             child: SizedBox(
-                              width: 56,
-                              height: 56,
-                              child: Icon(Icons.run_circle_outlined),
+                              width: 65,
+                              height: 65,
+                              child: Image.asset('assets/ic_icon.png'),
                             ),
                             onTap: () async {
                               if (walking_ready) {
