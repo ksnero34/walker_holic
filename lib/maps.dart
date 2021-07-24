@@ -323,7 +323,10 @@ class _MyMaps extends State<MyMaps> {
       if (site != getnearestsite.getsite()) {
         setState(() {
           site = getnearestsite.getsite();
-          //if (status == '산책중') set_destinationimg(destination_set);
+          if (status == '산책중') {
+            mapController
+                .animateCamera(CameraUpdate.newLatLng(userlocation_global));
+          }
         });
       }
       //print(getnearestsite.getsite());
