@@ -6,12 +6,14 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:walkerholic/camera.dart';
 import 'package:http/http.dart' as http;
 import 'package:walkerholic/main.dart';
+import 'package:image_picker/image_picker.dart';
 
 class report_form extends StatefulWidget {
   bool img_set;
   String imagePath;
   String title_text;
   String content_text;
+
   report_form({
     @required this.img_set,
     @required this.imagePath,
@@ -36,6 +38,7 @@ class _report_formState extends State<report_form> {
   _report_formState(
       {this.img_set, this.imagePath, this.title_text, this.content_text});
   Image report_img;
+  PickedFile _imagee;
 
   @override
   void initState() {
@@ -77,6 +80,16 @@ class _report_formState extends State<report_form> {
       // TODO
       print(e);
     }
+  }
+
+  Future getImageFromCam() async {
+    // for camera
+    var image =
+        await ImagePicker.platform.pickImage(source: ImageSource.camera);
+    setState(() {
+      _imagee = image;
+      report_img = Image.file(File(_imagee.path));
+    });
   }
 
   @override
@@ -144,13 +157,15 @@ class _report_formState extends State<report_form> {
                               heroTag: null,
                               child: Icon(Icons.camera),
                               onPressed: () {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (ctx) => Camera(
-                                            title_text: titletext_cntr.text,
-                                            content_text:
-                                                contenttext_cntr.text)));
+                                // Navigator.push(
+                                //     context,
+                                //     MaterialPageRoute(
+                                //         builder: (ctx) => Camera(
+                                //             title_text: titletext_cntr.text,
+                                //             content_text:
+                                //                 contenttext_cntr.text)));
+
+                                getImageFromCam();
                               }),
                           FloatingActionButton(
                               heroTag: null,
