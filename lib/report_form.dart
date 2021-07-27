@@ -22,10 +22,7 @@ class report_form extends StatefulWidget {
   });
   @override
   _report_formState createState() => _report_formState(
-      img_set: img_set,
-      imagePath: imagePath,
-      title_text: title_text,
-      content_text: content_text);
+      imagePath: imagePath, title_text: title_text, content_text: content_text);
 }
 
 class _report_formState extends State<report_form> {
@@ -34,9 +31,8 @@ class _report_formState extends State<report_form> {
   String title_text;
   String content_text;
   final String imagePath;
-  final bool img_set;
-  _report_formState(
-      {this.img_set, this.imagePath, this.title_text, this.content_text});
+  bool img_set = false;
+  _report_formState({this.imagePath, this.title_text, this.content_text});
   Image report_img;
   PickedFile _imagee;
 
@@ -89,6 +85,7 @@ class _report_formState extends State<report_form> {
     setState(() {
       _imagee = image;
       report_img = Image.file(File(_imagee.path));
+      img_set = true;
     });
   }
 
@@ -157,14 +154,6 @@ class _report_formState extends State<report_form> {
                               heroTag: null,
                               child: Icon(Icons.camera),
                               onPressed: () {
-                                // Navigator.push(
-                                //     context,
-                                //     MaterialPageRoute(
-                                //         builder: (ctx) => Camera(
-                                //             title_text: titletext_cntr.text,
-                                //             content_text:
-                                //                 contenttext_cntr.text)));
-
                                 getImageFromCam();
                               }),
                           FloatingActionButton(
