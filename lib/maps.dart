@@ -42,19 +42,26 @@ class _MyMaps extends State<MyMaps> {
   List<Image> pictureLists = [Image.asset('assets/loadings.gif')];
   final pictureLists_init = [Image.asset('assets/loadings.gif')];
   final pictureLists_simin = [
-    Image.asset('assets/img_simin.jpg'),
-    Image.asset('assets/img_simin.jpg'),
-    Image.asset('assets/img_simin.jpg')
+    Image.asset('assets/simin1.png'),
+    Image.asset('assets/simin2.png'),
+    Image.asset('assets/simin3.png'),
+    Image.asset('assets/simin4.png'),
+    Image.asset('assets/simin5.png'),
   ];
   final pictureLists_unitedn = [
-    Image.asset('assets/img_unitedn.jpg'),
-    Image.asset('assets/img_unitedn.jpg'),
-    Image.asset('assets/img_unitedn.jpg')
+    Image.asset('assets/unitedn1.png'),
+    Image.asset('assets/unitedn2.png'),
+    Image.asset('assets/unitedn3.png'),
+    Image.asset('assets/unitedn4.png'),
+    Image.asset('assets/unitedn5.png'),
   ];
   final pictureLists_gwang = [
-    Image.asset('assets/img_gwang.jpg'),
-    Image.asset('assets/img_gwang.jpg'),
-    Image.asset('assets/img_gwang.jpg')
+    Image.asset('assets/gwnag1.png'),
+    Image.asset('assets/gwnag2.png'),
+    Image.asset('assets/gwnag3.png'),
+    Image.asset('assets/gwnag4.png'),
+    Image.asset('assets/gwnag5.png'),
+    Image.asset('assets/gwnag6.png'),
   ];
 
   //GoogleMapController _controller;

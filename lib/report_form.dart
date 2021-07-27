@@ -3,7 +3,6 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:walkerholic/camera.dart';
 import 'package:http/http.dart' as http;
 import 'package:walkerholic/main.dart';
 import 'package:image_picker/image_picker.dart';
@@ -91,6 +90,11 @@ class _report_formState extends State<report_form> {
 
   @override
   Widget build(BuildContext context) {
+    final double statusBarHeight =
+        MediaQuery.of(context).padding.top; //기기의 상태창 크기
+    final double statusHeight = (MediaQuery.of(context).size.height -
+        statusBarHeight -
+        MediaQuery.of(context).padding.bottom); // 기기의 화면크기
     return Material(
         child: Localizations(
             locale: const Locale('en', 'US'),
@@ -104,6 +108,7 @@ class _report_formState extends State<report_form> {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
+                      Padding(padding: EdgeInsets.only(top: statusBarHeight)),
                       Container(
                           margin: EdgeInsets.all(5),
                           child: Text(
