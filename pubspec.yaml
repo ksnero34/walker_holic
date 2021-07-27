@@ -61,9 +61,22 @@ flutter:
 
   # To add assets to your application, add an assets section, like this:
   assets:
-     - assets/img_gwang.jpg
-     - assets/img_simin.jpg
-     - assets/img_unitedn.jpg
+     - assets/gwang1.png
+     - assets/gwang2.png
+     - assets/gwang3.png
+     - assets/gwang4.png
+     - assets/gwang5.png
+     - assets/gwang6.png
+     - assets/simin1.png
+     - assets/simin2.png
+     - assets/simin3.png
+     - assets/simin4.png
+     - assets/simin5.png
+     - assets/unitedn1.png
+     - assets/unitedn2.png
+     - assets/unitedn3.png
+     - assets/unitedn4.png
+     - assets/unitedn5.png
      - assets/loadings.gif
      - assets/marker_simin.png
      - assets/marker_unitedn.png

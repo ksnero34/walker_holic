@@ -56,12 +56,12 @@ class _MyMaps extends State<MyMaps> {
     Image.asset('assets/unitedn5.png'),
   ];
   final pictureLists_gwang = [
-    Image.asset('assets/gwnag1.png'),
-    Image.asset('assets/gwnag2.png'),
-    Image.asset('assets/gwnag3.png'),
-    Image.asset('assets/gwnag4.png'),
-    Image.asset('assets/gwnag5.png'),
-    Image.asset('assets/gwnag6.png'),
+    Image.asset('assets/gwang1.png'),
+    Image.asset('assets/gwang2.png'),
+    Image.asset('assets/gwang3.png'),
+    Image.asset('assets/gwang4.png'),
+    Image.asset('assets/gwang5.png'),
+    Image.asset('assets/gwang6.png'),
   ];
 
   //GoogleMapController _controller;

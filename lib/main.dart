@@ -5,7 +5,6 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:walkerholic/badge.dart';
-import 'package:walkerholic/camera.dart';
 //import 'package:walkerholic/location/user_location.dart';
 import 'package:background_location/background_location.dart';
 import 'package:walkerholic/location/getnearest.dart';
