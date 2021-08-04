@@ -40,10 +40,8 @@ class _report_formState extends State<report_form> {
     // TODO: implement initState
     super.initState();
     //print(imagePath);
-    if (img_set)
-      report_img = Image.file(File(imagePath));
-    else
-      report_img = Image.asset('assets/loadings.gif');
+
+    report_img = Image.asset('assets/loadings.gif');
 
     titletext_cntr.text = title_text;
     contenttext_cntr.text = content_text;
@@ -53,7 +51,7 @@ class _report_formState extends State<report_form> {
     try {
       String url = 'http://211.219.250.41/input';
       var uri = Uri.parse(url);
-      List<int> img_bytes = File(imagePath).readAsBytesSync();
+      List<int> img_bytes = File(_imagee.path).readAsBytesSync();
       String base64img = base64Encode(img_bytes);
       var data = {
         "type": "report",
@@ -68,7 +66,7 @@ class _report_formState extends State<report_form> {
       http.Response response = await http.post(uri,
           headers: <String, String>{"Content-Type": "application/json"},
           body: body);
-      print(body);
+      //print(body);
       print(response.statusCode);
       //print(userlocation_global.latitude);
     } on Exception catch (e) {
@@ -79,8 +77,8 @@ class _report_formState extends State<report_form> {
 
   Future getImageFromCam() async {
     // for camera
-    var image =
-        await ImagePicker.platform.pickImage(source: ImageSource.camera);
+    var image = await ImagePicker.platform
+        .pickImage(source: ImageSource.camera, imageQuality: 50);
     setState(() {
       _imagee = image;
       report_img = Image.file(File(_imagee.path));
