@@ -34,7 +34,7 @@ class _report_formState extends State<report_form> {
   _report_formState({this.imagePath, this.title_text, this.content_text});
   Image report_img;
   PickedFile _imagee;
-
+  bool upload_ok = false;
   @override
   void initState() {
     // TODO: implement initState
@@ -42,7 +42,7 @@ class _report_formState extends State<report_form> {
     //print(imagePath);
 
     report_img = Image.asset('assets/loadings.gif');
-
+    upload_ok = false;
     titletext_cntr.text = title_text;
     contenttext_cntr.text = content_text;
   }
@@ -58,16 +58,29 @@ class _report_formState extends State<report_form> {
         "title": title,
         "content": content,
         "image": base64img,
-        "latitude": userlocation_global.latitude,
-        "longitude": userlocation_global.longitude,
+        "latitude": userlocation_global.latitude.toString(),
+        "longitude": userlocation_global.longitude.toString(),
         "date": DateTime.now().toString(),
       };
       var body = json.encode(data);
-      http.Response response = await http.post(uri,
-          headers: <String, String>{"Content-Type": "application/json"},
-          body: body);
+      http.Response response = await http.post(uri, headers: <String, String>{
+        "Content-Type": "application/x-www-form-urlencoded"
+      }, body: <String, String>{
+        "type": "report",
+        "title": title,
+        "content": content,
+        "image": base64img,
+        "latitude": userlocation_global.latitude.toString(),
+        "longitude": userlocation_global.longitude.toString(),
+        "date": DateTime.now().toString(),
+      });
       //print(body);
       print(response.statusCode);
+      if (response.statusCode == 200) {
+        setState(() {
+          upload_ok = true;
+        });
+      }
       //print(userlocation_global.latitude);
     } on Exception catch (e) {
       // TODO
@@ -183,14 +196,23 @@ class _report_formState extends State<report_form> {
                                   //
                                   await upload_server(titletext_cntr.text,
                                       contenttext_cntr.text);
-                                  Fluttertoast.showToast(
-                                    msg: '제보를 완료하였습니다!',
-                                    toastLength: Toast.LENGTH_LONG,
-                                    gravity: ToastGravity.CENTER,
-                                    timeInSecForIosWeb: 1,
-                                  );
-                                  Navigator.popUntil(
-                                      context, ModalRoute.withName('/'));
+                                  if (upload_ok) {
+                                    Fluttertoast.showToast(
+                                      msg: '제보를 완료하였습니다!',
+                                      toastLength: Toast.LENGTH_LONG,
+                                      gravity: ToastGravity.CENTER,
+                                      timeInSecForIosWeb: 1,
+                                    );
+                                    Navigator.popUntil(
+                                        context, ModalRoute.withName('/'));
+                                  } else {
+                                    Fluttertoast.showToast(
+                                      msg: '서버와의 통신에 실패햐였습니다.',
+                                      toastLength: Toast.LENGTH_LONG,
+                                      gravity: ToastGravity.CENTER,
+                                      timeInSecForIosWeb: 1,
+                                    );
+                                  }
                                 }
                               }),
                         ],

@@ -88,6 +88,9 @@ flutter:
      - assets/simin_icon.png
      - assets/gwang_icon.png
      - assets/unitedn_icon.png
+     - assets/badge_gwang_black.png
+     - assets/badge_simin_black.png
+     - assets/badge_unitedn_black.png
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see
