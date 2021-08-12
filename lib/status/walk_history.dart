@@ -40,17 +40,17 @@ class user_history {
       //print(input_data);
       var uri = Uri.parse(url);
       var data = {
-        "type": "walk",
         "start": input_data[0].toString(),
         "end": input_data[1].toString(),
         "diff": input_data[2].toString(),
-        "destination": input_data[3],
+        "destination": input_data[3].toString(),
       };
       var body = json.encode(data);
       http.Response response = await http.post(uri,
           headers: <String, String>{"Content-Type": "application/json"},
           body: body);
       print(response.statusCode);
+      print(body);
 
       //print(body);
       //print(userlocation_global.latitude);

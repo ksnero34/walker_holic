@@ -141,15 +141,28 @@ class _badgeState extends State<badge> {
           child: Column(
         children: [
           SizedBox(height: statusBarHeight),
-          SizedBox(
+          Container(
+            decoration: BoxDecoration(
+              color: Colors.brown[100],
+            ),
             height: statusHeight * 0.1,
+            width: double.infinity,
+            alignment: Alignment.center,
             child: Text(
               '광안리 산책길',
               style: TextStyle(fontSize: statusHeight * 0.06),
             ),
           ),
-          SizedBox(
+          Container(
             height: statusHeight * 0.2,
+            width: double.infinity,
+            decoration: BoxDecoration(
+                image: DecorationImage(
+              fit: BoxFit.cover,
+              colorFilter: ColorFilter.mode(
+                  Colors.black.withOpacity(0.6), BlendMode.dstATop),
+              image: AssetImage('assets/gwang1.png'),
+            )),
             child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
@@ -185,7 +198,15 @@ class _badgeState extends State<badge> {
                           height: statusHeight * 0.18,
                           child: Image.asset('assets/badge_gwang_black.png'),
                         ),
-                        onTap: () {},
+                        onTap: () {
+                          showDialog(
+                            context: context,
+                            //barrierDismissible: false,
+                            builder: (BuildContext context) {
+                              return badge_pressed(context, 'gwang_2');
+                            },
+                          );
+                        },
                       ),
                     ),
                   ),
@@ -199,21 +220,42 @@ class _badgeState extends State<badge> {
                           height: statusHeight * 0.18,
                           child: Image.asset('assets/badge_gwang_black.png'),
                         ),
-                        onTap: () {},
+                        onTap: () {
+                          showDialog(
+                            context: context,
+                            //barrierDismissible: false,
+                            builder: (BuildContext context) {
+                              return badge_pressed(context, 'gwang_3');
+                            },
+                          );
+                        },
                       ),
                     ),
                   ),
                 ]),
           ),
-          SizedBox(
+          Container(
+            decoration: BoxDecoration(
+              color: Colors.brown[100],
+            ),
             height: statusHeight * 0.1,
+            width: double.infinity,
+            alignment: Alignment.center,
             child: Text(
-              '부산 시민공원',
+              '부산 시민 공원',
               style: TextStyle(fontSize: statusHeight * 0.06),
             ),
           ),
-          SizedBox(
+          Container(
             height: statusHeight * 0.2,
+            width: double.infinity,
+            decoration: BoxDecoration(
+                image: DecorationImage(
+              fit: BoxFit.cover,
+              colorFilter: ColorFilter.mode(
+                  Colors.black.withOpacity(0.6), BlendMode.dstATop),
+              image: AssetImage('assets/simin1.png'),
+            )),
             child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
@@ -261,15 +303,28 @@ class _badgeState extends State<badge> {
                   ),
                 ]),
           ),
-          SizedBox(
+          Container(
+            decoration: BoxDecoration(
+              color: Colors.brown[100],
+            ),
             height: statusHeight * 0.1,
+            width: double.infinity,
+            alignment: Alignment.center,
             child: Text(
-              'UN공원',
+              '유엔공원',
               style: TextStyle(fontSize: statusHeight * 0.06),
             ),
           ),
-          SizedBox(
+          Container(
             height: statusHeight * 0.2,
+            width: double.infinity,
+            decoration: BoxDecoration(
+                image: DecorationImage(
+              fit: BoxFit.cover,
+              colorFilter: ColorFilter.mode(
+                  Colors.black.withOpacity(0.6), BlendMode.dstATop),
+              image: AssetImage('assets/unitedn1.png'),
+            )),
             child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
@@ -317,9 +372,15 @@ class _badgeState extends State<badge> {
                   ),
                 ]),
           ),
-          SizedBox(
+          Container(
+            decoration: BoxDecoration(
+              color: Colors.brown[100],
+            ),
+            height: statusHeight * 0.1,
+            width: double.infinity,
+            alignment: Alignment.center,
             child: Text(
-              '그 외 다른 지역',
+              '그외 다른지역',
               style: TextStyle(fontSize: statusHeight * 0.06),
             ),
           ),

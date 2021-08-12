@@ -6,6 +6,7 @@ import 'package:http/http.dart' as http;
 Future<List<notice>> fetchnotice(http.Client client) async {
   String url = 'http://211.219.250.41/walk_data';
   final response = await client.get(Uri.parse(url));
+  print(response.body);
   final utfdata = utf8.decode(response.bodyBytes);
   return compute(parsenotices, utfdata);
 }

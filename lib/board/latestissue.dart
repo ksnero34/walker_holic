@@ -4,8 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
 Future<List<issue>> fetchissues(http.Client client) async {
-  String url = 'http://211.219.250.41/walk_data';
+  String url = 'http://211.219.250.41/notice';
   final response = await client.get(Uri.parse(url));
+  print(response.body);
   final utfdata = utf8.decode(response.bodyBytes);
   return compute(parseissues, utfdata);
 }
@@ -60,34 +61,28 @@ class issueList extends StatelessWidget {
     //   leading: Icon(Icons.notifications_active),
     //   title : Text(notices[index]),
     // );
-    return Localizations(
-        locale: const Locale('en', 'US'),
-        delegates: <LocalizationsDelegate<dynamic>>[
-          DefaultWidgetsLocalizations.delegate,
-          DefaultMaterialLocalizations.delegate,
-        ],
-        child: ListView.builder(
-            itemCount: issues.length,
-            itemBuilder: (context, index) {
-              return Material(
-                child: ListTile(
-                  leading: Icon(Icons.warning),
-                  title: Text(issues[index].title),
-                  subtitle: Text(issues[index].body),
-                  //trailing: Text(notices[index].body),
-                  onTap: () {
-                    showDialog(
-                      context: context,
-                      //barrierDismissible: false,
-                      builder: (BuildContext context) {
-                        return issue_pressed(
-                            context, issues[index].title, issues[index].body);
-                      },
-                    );
+    return ListView.builder(
+        itemCount: issues.length,
+        itemBuilder: (context, index) {
+          return Material(
+            child: ListTile(
+              leading: Icon(Icons.warning),
+              title: Text(issues[index].title),
+              subtitle: Text(issues[index].body),
+              //trailing: Text(notices[index].body),
+              onTap: () {
+                showDialog(
+                  context: context,
+                  //barrierDismissible: false,
+                  builder: (BuildContext context) {
+                    return issue_pressed(
+                        context, issues[index].title, issues[index].body);
                   },
-                  isThreeLine: true,
-                ),
-              );
-            }));
+                );
+              },
+              isThreeLine: true,
+            ),
+          );
+        });
   }
 }
