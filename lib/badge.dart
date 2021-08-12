@@ -135,212 +135,196 @@ class _badgeState extends State<badge> {
     // Text(unitedn_history),
     // Text('산책 히스토리(광안리)'),
     // Text(gwang_history),
-    return Material(
-      child: Localizations(
-          locale: const Locale('en', 'US'),
-          delegates: <LocalizationsDelegate<dynamic>>[
-            DefaultWidgetsLocalizations.delegate,
-            DefaultMaterialLocalizations.delegate,
-          ],
-          child: GestureDetector(
-              onTap: () => FocusScope.of(context).unfocus(),
-              child: SingleChildScrollView(
-                  child: Column(
+    return GestureDetector(
+      onTap: () => FocusScope.of(context).unfocus(),
+      child: SingleChildScrollView(
+          child: Column(
+        children: [
+          SizedBox(height: statusBarHeight),
+          SizedBox(
+            height: statusHeight * 0.1,
+            child: Text(
+              '광안리 산책길',
+              style: TextStyle(fontSize: statusHeight * 0.06),
+            ),
+          ),
+          SizedBox(
+            height: statusHeight * 0.2,
+            child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  SizedBox(height: statusBarHeight),
-                  SizedBox(
-                    height: statusHeight * 0.1,
-                    child: Text(
-                      '광안리 산책길',
-                      style: TextStyle(fontSize: statusHeight * 0.06),
+                  ClipOval(
+                    child: Material(
+                      color: Colors.white, // button color
+                      child: InkWell(
+                        splashColor: Colors.white, // inkwell color
+                        child: SizedBox(
+                          width: statusHeight * 0.18,
+                          height: statusHeight * 0.18,
+                          child: Image.asset('assets/badge_gwang_black.png'),
+                        ),
+                        onTap: () {
+                          showDialog(
+                            context: context,
+                            //barrierDismissible: false,
+                            builder: (BuildContext context) {
+                              return badge_pressed(context, 'gwang_1');
+                            },
+                          );
+                        },
+                      ),
                     ),
                   ),
-                  SizedBox(
-                    height: statusHeight * 0.2,
-                    child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          ClipOval(
-                            child: Material(
-                              color: Colors.white, // button color
-                              child: InkWell(
-                                splashColor: Colors.white, // inkwell color
-                                child: SizedBox(
-                                  width: statusHeight * 0.18,
-                                  height: statusHeight * 0.18,
-                                  child: Image.asset(
-                                      'assets/badge_gwang_black.png'),
-                                ),
-                                onTap: () {
-                                  showDialog(
-                                    context: context,
-                                    //barrierDismissible: false,
-                                    builder: (BuildContext context) {
-                                      return badge_pressed(context, 'gwang_1');
-                                    },
-                                  );
-                                },
-                              ),
-                            ),
-                          ),
-                          ClipOval(
-                            child: Material(
-                              color: Colors.white, // button color
-                              child: InkWell(
-                                splashColor: Colors.white, // inkwell color
-                                child: SizedBox(
-                                  width: statusHeight * 0.18,
-                                  height: statusHeight * 0.18,
-                                  child: Image.asset(
-                                      'assets/badge_gwang_black.png'),
-                                ),
-                                onTap: () {},
-                              ),
-                            ),
-                          ),
-                          ClipOval(
-                            child: Material(
-                              color: Colors.white, // button color
-                              child: InkWell(
-                                splashColor: Colors.white, // inkwell color
-                                child: SizedBox(
-                                  width: statusHeight * 0.18,
-                                  height: statusHeight * 0.18,
-                                  child: Image.asset(
-                                      'assets/badge_gwang_black.png'),
-                                ),
-                                onTap: () {},
-                              ),
-                            ),
-                          ),
-                        ]),
-                  ),
-                  SizedBox(
-                    height: statusHeight * 0.1,
-                    child: Text(
-                      '부산 시민공원',
-                      style: TextStyle(fontSize: statusHeight * 0.06),
+                  ClipOval(
+                    child: Material(
+                      color: Colors.white, // button color
+                      child: InkWell(
+                        splashColor: Colors.white, // inkwell color
+                        child: SizedBox(
+                          width: statusHeight * 0.18,
+                          height: statusHeight * 0.18,
+                          child: Image.asset('assets/badge_gwang_black.png'),
+                        ),
+                        onTap: () {},
+                      ),
                     ),
                   ),
-                  SizedBox(
-                    height: statusHeight * 0.2,
-                    child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          ClipOval(
-                            child: Material(
-                              color: Colors.white, // button color
-                              child: InkWell(
-                                splashColor: Colors.white, // inkwell color
-                                child: SizedBox(
-                                  width: statusHeight * 0.18,
-                                  height: statusHeight * 0.18,
-                                  child: Image.asset(
-                                      'assets/badge_simin_black.png'),
-                                ),
-                                onTap: () {},
-                              ),
-                            ),
-                          ),
-                          ClipOval(
-                            child: Material(
-                              color: Colors.white, // button color
-                              child: InkWell(
-                                splashColor: Colors.white, // inkwell color
-                                child: SizedBox(
-                                  width: statusHeight * 0.18,
-                                  height: statusHeight * 0.18,
-                                  child: Image.asset(
-                                      'assets/badge_simin_black.png'),
-                                ),
-                                onTap: () {},
-                              ),
-                            ),
-                          ),
-                          ClipOval(
-                            child: Material(
-                              color: Colors.white, // button color
-                              child: InkWell(
-                                splashColor: Colors.white, // inkwell color
-                                child: SizedBox(
-                                  width: statusHeight * 0.18,
-                                  height: statusHeight * 0.18,
-                                  child: Image.asset(
-                                      'assets/badge_simin_black.png'),
-                                ),
-                                onTap: () {},
-                              ),
-                            ),
-                          ),
-                        ]),
-                  ),
-                  SizedBox(
-                    height: statusHeight * 0.1,
-                    child: Text(
-                      'UN공원',
-                      style: TextStyle(fontSize: statusHeight * 0.06),
+                  ClipOval(
+                    child: Material(
+                      color: Colors.white, // button color
+                      child: InkWell(
+                        splashColor: Colors.white, // inkwell color
+                        child: SizedBox(
+                          width: statusHeight * 0.18,
+                          height: statusHeight * 0.18,
+                          child: Image.asset('assets/badge_gwang_black.png'),
+                        ),
+                        onTap: () {},
+                      ),
                     ),
                   ),
-                  SizedBox(
-                    height: statusHeight * 0.2,
-                    child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          ClipOval(
-                            child: Material(
-                              color: Colors.white, // button color
-                              child: InkWell(
-                                splashColor: Colors.white, // inkwell color
-                                child: SizedBox(
-                                  width: statusHeight * 0.18,
-                                  height: statusHeight * 0.18,
-                                  child: Image.asset(
-                                      'assets/badge_unitedn_black.png'),
-                                ),
-                                onTap: () {},
-                              ),
-                            ),
-                          ),
-                          ClipOval(
-                            child: Material(
-                              color: Colors.white, // button color
-                              child: InkWell(
-                                splashColor: Colors.white, // inkwell color
-                                child: SizedBox(
-                                  width: statusHeight * 0.18,
-                                  height: statusHeight * 0.18,
-                                  child: Image.asset(
-                                      'assets/badge_unitedn_black.png'),
-                                ),
-                                onTap: () {},
-                              ),
-                            ),
-                          ),
-                          ClipOval(
-                            child: Material(
-                              color: Colors.white, // button color
-                              child: InkWell(
-                                splashColor: Colors.white, // inkwell color
-                                child: SizedBox(
-                                  width: statusHeight * 0.18,
-                                  height: statusHeight * 0.18,
-                                  child: Image.asset(
-                                      'assets/badge_unitedn_black.png'),
-                                ),
-                                onTap: () {},
-                              ),
-                            ),
-                          ),
-                        ]),
-                  ),
-                  SizedBox(
-                    child: Text(
-                      '그 외 다른 지역',
-                      style: TextStyle(fontSize: statusHeight * 0.06),
+                ]),
+          ),
+          SizedBox(
+            height: statusHeight * 0.1,
+            child: Text(
+              '부산 시민공원',
+              style: TextStyle(fontSize: statusHeight * 0.06),
+            ),
+          ),
+          SizedBox(
+            height: statusHeight * 0.2,
+            child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  ClipOval(
+                    child: Material(
+                      color: Colors.white, // button color
+                      child: InkWell(
+                        splashColor: Colors.white, // inkwell color
+                        child: SizedBox(
+                          width: statusHeight * 0.18,
+                          height: statusHeight * 0.18,
+                          child: Image.asset('assets/badge_simin_black.png'),
+                        ),
+                        onTap: () {},
+                      ),
                     ),
                   ),
-                ],
-              )))),
+                  ClipOval(
+                    child: Material(
+                      color: Colors.white, // button color
+                      child: InkWell(
+                        splashColor: Colors.white, // inkwell color
+                        child: SizedBox(
+                          width: statusHeight * 0.18,
+                          height: statusHeight * 0.18,
+                          child: Image.asset('assets/badge_simin_black.png'),
+                        ),
+                        onTap: () {},
+                      ),
+                    ),
+                  ),
+                  ClipOval(
+                    child: Material(
+                      color: Colors.white, // button color
+                      child: InkWell(
+                        splashColor: Colors.white, // inkwell color
+                        child: SizedBox(
+                          width: statusHeight * 0.18,
+                          height: statusHeight * 0.18,
+                          child: Image.asset('assets/badge_simin_black.png'),
+                        ),
+                        onTap: () {},
+                      ),
+                    ),
+                  ),
+                ]),
+          ),
+          SizedBox(
+            height: statusHeight * 0.1,
+            child: Text(
+              'UN공원',
+              style: TextStyle(fontSize: statusHeight * 0.06),
+            ),
+          ),
+          SizedBox(
+            height: statusHeight * 0.2,
+            child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  ClipOval(
+                    child: Material(
+                      color: Colors.white, // button color
+                      child: InkWell(
+                        splashColor: Colors.white, // inkwell color
+                        child: SizedBox(
+                          width: statusHeight * 0.18,
+                          height: statusHeight * 0.18,
+                          child: Image.asset('assets/badge_unitedn_black.png'),
+                        ),
+                        onTap: () {},
+                      ),
+                    ),
+                  ),
+                  ClipOval(
+                    child: Material(
+                      color: Colors.white, // button color
+                      child: InkWell(
+                        splashColor: Colors.white, // inkwell color
+                        child: SizedBox(
+                          width: statusHeight * 0.18,
+                          height: statusHeight * 0.18,
+                          child: Image.asset('assets/badge_unitedn_black.png'),
+                        ),
+                        onTap: () {},
+                      ),
+                    ),
+                  ),
+                  ClipOval(
+                    child: Material(
+                      color: Colors.white, // button color
+                      child: InkWell(
+                        splashColor: Colors.white, // inkwell color
+                        child: SizedBox(
+                          width: statusHeight * 0.18,
+                          height: statusHeight * 0.18,
+                          child: Image.asset('assets/badge_unitedn_black.png'),
+                        ),
+                        onTap: () {},
+                      ),
+                    ),
+                  ),
+                ]),
+          ),
+          SizedBox(
+            child: Text(
+              '그 외 다른 지역',
+              style: TextStyle(fontSize: statusHeight * 0.06),
+            ),
+          ),
+        ],
+      )),
     );
   }
 }

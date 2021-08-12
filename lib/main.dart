@@ -44,6 +44,11 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: '부산폴짝',
       home: MyHomePage(),
+      localizationsDelegates: [
+        DefaultMaterialLocalizations.delegate,
+        DefaultCupertinoLocalizations.delegate,
+        DefaultWidgetsLocalizations.delegate,
+      ],
     );
   }
 }
