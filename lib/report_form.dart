@@ -51,29 +51,40 @@ class _report_formState extends State<report_form> {
     try {
       String url = 'http://211.219.250.41/input';
       var uri = Uri.parse(url);
-      List<int> img_bytes = File(_imagee.path).readAsBytesSync();
-      String base64img = base64Encode(img_bytes);
-      var data = {
-        "type": "report",
-        "title": title,
-        "content": content,
-        "image": base64img,
-        "latitude": userlocation_global.latitude.toString(),
-        "longitude": userlocation_global.longitude.toString(),
-        "date": DateTime.now().toString(),
-      };
-      var body = json.encode(data);
-      http.Response response = await http.post(uri, headers: <String, String>{
-        "Content-Type": "application/x-www-form-urlencoded"
-      }, body: <String, String>{
-        "type": "report",
-        "title": title,
-        "content": content,
-        "image": base64img,
-        "latitude": userlocation_global.latitude.toString(),
-        "longitude": userlocation_global.longitude.toString(),
-        "date": DateTime.now().toString(),
-      });
+      //List<int> img_bytes = File(_imagee.path).readAsBytesSync();
+      //String base64img = base64Encode(img_bytes);
+      // var data = {
+      //   "type": "report",
+      //   "title": title,
+      //   "content": content,
+      //   "image": base64img,
+      //   "latitude": userlocation_global.latitude.toString(),
+      //   "longitude": userlocation_global.longitude.toString(),
+      //   "date": DateTime.now().toString(),
+      // };
+      // var body = json.encode(data);
+      // http.Response response = await http.post(uri, headers: <String, String>{
+      //   "Content-Type": "application/x-www-form-urlencoded"
+      // }, body: <String, String>{
+      //   "type": "report",
+      //   "title": title,
+      //   "content": content,
+      //   "image": base64img,
+      //   "latitude": userlocation_global.latitude.toString(),
+      //   "longitude": userlocation_global.longitude.toString(),
+      //   "date": DateTime.now().toString(),
+      // });
+      var request = new http.MultipartRequest("POST", uri);
+
+      request.fields['type'] = 'report';
+      request.fields['title'] = title;
+      //나머지 적기 테슽트후에
+
+      request.files
+          .add(await http.MultipartFile.fromPath('image', _imagee.path));
+
+      var response = await request.send();
+
       //print(body);
       print(response.statusCode);
       if (response.statusCode == 200) {

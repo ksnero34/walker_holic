@@ -109,6 +109,79 @@ class _badgeState extends State<badge> {
           Text(unitedn_history),
           Text('산책 히스토리(광안리)'),
           Text(gwang_history),
+          GestureDetector(
+              onTap: () => FocusScope.of(context).unfocus(),
+              child: SingleChildScrollView(
+                  child: Column(
+                children: [
+                  SizedBox(
+                    height: 10,
+                    child: Text('광안리 산책길'),
+                  ),
+                  SizedBox(
+                    child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          ClipOval(
+                            child: Material(
+                              color: Colors.white, // button color
+                              child: InkWell(
+                                splashColor: Colors.white, // inkwell color
+                                child: SizedBox(
+                                  width: 65,
+                                  height: 65,
+                                  child: Image.asset(
+                                      'assets/badge_gwang_black.png'),
+                                ),
+                                onTap: () {},
+                              ),
+                            ),
+                          ),
+                          ClipOval(
+                            child: Material(
+                              color: Colors.white, // button color
+                              child: InkWell(
+                                splashColor: Colors.white, // inkwell color
+                                child: SizedBox(
+                                  width: 65,
+                                  height: 65,
+                                  child: Image.asset(
+                                      'assets/badge_gwang_black.png'),
+                                ),
+                                onTap: () {},
+                              ),
+                            ),
+                          ),
+                          ClipOval(
+                            child: Material(
+                              color: Colors.white, // button color
+                              child: InkWell(
+                                splashColor: Colors.white, // inkwell color
+                                child: SizedBox(
+                                  width: 65,
+                                  height: 65,
+                                  child: Image.asset(
+                                      'assets/badge_gwang_black.png'),
+                                ),
+                                onTap: () {},
+                              ),
+                            ),
+                          ),
+                        ]),
+                  ),
+                  SizedBox(
+                    child: Text('부산 시민공원'),
+                  ),
+                  SizedBox(),
+                  SizedBox(
+                    child: Text('UN공원'),
+                  ),
+                  SizedBox(),
+                  SizedBox(
+                    child: Text('그 외 다른 지역'),
+                  ),
+                ],
+              )))
         ],
       ),
     );
