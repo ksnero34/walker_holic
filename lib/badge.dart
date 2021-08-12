@@ -92,33 +92,71 @@ class _badgeState extends State<badge> {
               .format(DateTime.parse(key_val.getString('광안리')));
         });
     });
-    return Center(
-      child: Column(
-        children: [
-          Padding(padding: EdgeInsets.only(top: statusBarHeight)),
-          Text('badge'),
-          Row(
-            children: [
-              Text('산책여부 : '),
-              Text('$status'),
-            ],
+
+    Widget badge_pressed(BuildContext context, String badge) {
+      String title = '테스팅중';
+      String content = '이스터에그 테스트중';
+      if (badge == 'gwang_1') {
+        title = '광안리 산책길을 밤에 산책시 획득가능';
+        content = '광안대교 야경 존멋 ㅎ.ㅎ';
+      } else if (badge == 'gwang_2') {
+        title = '광안리 산책길을 5회 이상 산책시 획득가능';
+        content = '(ง •̀_•́)ง';
+      } else if (badge == 'gwang_3') {
+        title = '광안리 산책길을 낮에 산책시 획득가능';
+        content = '산책도 좋지만 덥지 않나요..?';
+      }
+
+      return AlertDialog(
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.0)),
+        title: Text(title),
+        content: SingleChildScrollView(child: Text(content)),
+        actions: <Widget>[
+          new TextButton(
+            child: Text("닫기"),
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
           ),
-          Text('산책 히스토리(시민공원)'),
-          Text(simin_history),
-          Text('산책 히스토리(유엔공원)'),
-          Text(unitedn_history),
-          Text('산책 히스토리(광안리)'),
-          Text(gwang_history),
-          GestureDetector(
+        ],
+      );
+    }
+
+    // Text('badge'),
+    // Row(
+    //   children: [
+    //     Text('산책여부 : '),
+    //     Text('$status'),
+    //   ],
+    // ),
+    // Text('산책 히스토리(시민공원)'),
+    // Text(simin_history),
+    // Text('산책 히스토리(유엔공원)'),
+    // Text(unitedn_history),
+    // Text('산책 히스토리(광안리)'),
+    // Text(gwang_history),
+    return Material(
+      child: Localizations(
+          locale: const Locale('en', 'US'),
+          delegates: <LocalizationsDelegate<dynamic>>[
+            DefaultWidgetsLocalizations.delegate,
+            DefaultMaterialLocalizations.delegate,
+          ],
+          child: GestureDetector(
               onTap: () => FocusScope.of(context).unfocus(),
               child: SingleChildScrollView(
                   child: Column(
                 children: [
+                  SizedBox(height: statusBarHeight),
                   SizedBox(
-                    height: 10,
-                    child: Text('광안리 산책길'),
+                    height: statusHeight * 0.1,
+                    child: Text(
+                      '광안리 산책길',
+                      style: TextStyle(fontSize: statusHeight * 0.06),
+                    ),
                   ),
                   SizedBox(
+                    height: statusHeight * 0.2,
                     child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
@@ -128,8 +166,31 @@ class _badgeState extends State<badge> {
                               child: InkWell(
                                 splashColor: Colors.white, // inkwell color
                                 child: SizedBox(
-                                  width: 65,
-                                  height: 65,
+                                  width: statusHeight * 0.18,
+                                  height: statusHeight * 0.18,
+                                  child: Image.asset(
+                                      'assets/badge_gwang_black.png'),
+                                ),
+                                onTap: () {
+                                  showDialog(
+                                    context: context,
+                                    //barrierDismissible: false,
+                                    builder: (BuildContext context) {
+                                      return badge_pressed(context, 'gwang_1');
+                                    },
+                                  );
+                                },
+                              ),
+                            ),
+                          ),
+                          ClipOval(
+                            child: Material(
+                              color: Colors.white, // button color
+                              child: InkWell(
+                                splashColor: Colors.white, // inkwell color
+                                child: SizedBox(
+                                  width: statusHeight * 0.18,
+                                  height: statusHeight * 0.18,
                                   child: Image.asset(
                                       'assets/badge_gwang_black.png'),
                                 ),
@@ -143,23 +204,8 @@ class _badgeState extends State<badge> {
                               child: InkWell(
                                 splashColor: Colors.white, // inkwell color
                                 child: SizedBox(
-                                  width: 65,
-                                  height: 65,
-                                  child: Image.asset(
-                                      'assets/badge_gwang_black.png'),
-                                ),
-                                onTap: () {},
-                              ),
-                            ),
-                          ),
-                          ClipOval(
-                            child: Material(
-                              color: Colors.white, // button color
-                              child: InkWell(
-                                splashColor: Colors.white, // inkwell color
-                                child: SizedBox(
-                                  width: 65,
-                                  height: 65,
+                                  width: statusHeight * 0.18,
+                                  height: statusHeight * 0.18,
                                   child: Image.asset(
                                       'assets/badge_gwang_black.png'),
                                 ),
@@ -170,20 +216,131 @@ class _badgeState extends State<badge> {
                         ]),
                   ),
                   SizedBox(
-                    child: Text('부산 시민공원'),
+                    height: statusHeight * 0.1,
+                    child: Text(
+                      '부산 시민공원',
+                      style: TextStyle(fontSize: statusHeight * 0.06),
+                    ),
                   ),
-                  SizedBox(),
                   SizedBox(
-                    child: Text('UN공원'),
+                    height: statusHeight * 0.2,
+                    child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          ClipOval(
+                            child: Material(
+                              color: Colors.white, // button color
+                              child: InkWell(
+                                splashColor: Colors.white, // inkwell color
+                                child: SizedBox(
+                                  width: statusHeight * 0.18,
+                                  height: statusHeight * 0.18,
+                                  child: Image.asset(
+                                      'assets/badge_simin_black.png'),
+                                ),
+                                onTap: () {},
+                              ),
+                            ),
+                          ),
+                          ClipOval(
+                            child: Material(
+                              color: Colors.white, // button color
+                              child: InkWell(
+                                splashColor: Colors.white, // inkwell color
+                                child: SizedBox(
+                                  width: statusHeight * 0.18,
+                                  height: statusHeight * 0.18,
+                                  child: Image.asset(
+                                      'assets/badge_simin_black.png'),
+                                ),
+                                onTap: () {},
+                              ),
+                            ),
+                          ),
+                          ClipOval(
+                            child: Material(
+                              color: Colors.white, // button color
+                              child: InkWell(
+                                splashColor: Colors.white, // inkwell color
+                                child: SizedBox(
+                                  width: statusHeight * 0.18,
+                                  height: statusHeight * 0.18,
+                                  child: Image.asset(
+                                      'assets/badge_simin_black.png'),
+                                ),
+                                onTap: () {},
+                              ),
+                            ),
+                          ),
+                        ]),
                   ),
-                  SizedBox(),
                   SizedBox(
-                    child: Text('그 외 다른 지역'),
+                    height: statusHeight * 0.1,
+                    child: Text(
+                      'UN공원',
+                      style: TextStyle(fontSize: statusHeight * 0.06),
+                    ),
+                  ),
+                  SizedBox(
+                    height: statusHeight * 0.2,
+                    child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          ClipOval(
+                            child: Material(
+                              color: Colors.white, // button color
+                              child: InkWell(
+                                splashColor: Colors.white, // inkwell color
+                                child: SizedBox(
+                                  width: statusHeight * 0.18,
+                                  height: statusHeight * 0.18,
+                                  child: Image.asset(
+                                      'assets/badge_unitedn_black.png'),
+                                ),
+                                onTap: () {},
+                              ),
+                            ),
+                          ),
+                          ClipOval(
+                            child: Material(
+                              color: Colors.white, // button color
+                              child: InkWell(
+                                splashColor: Colors.white, // inkwell color
+                                child: SizedBox(
+                                  width: statusHeight * 0.18,
+                                  height: statusHeight * 0.18,
+                                  child: Image.asset(
+                                      'assets/badge_unitedn_black.png'),
+                                ),
+                                onTap: () {},
+                              ),
+                            ),
+                          ),
+                          ClipOval(
+                            child: Material(
+                              color: Colors.white, // button color
+                              child: InkWell(
+                                splashColor: Colors.white, // inkwell color
+                                child: SizedBox(
+                                  width: statusHeight * 0.18,
+                                  height: statusHeight * 0.18,
+                                  child: Image.asset(
+                                      'assets/badge_unitedn_black.png'),
+                                ),
+                                onTap: () {},
+                              ),
+                            ),
+                          ),
+                        ]),
+                  ),
+                  SizedBox(
+                    child: Text(
+                      '그 외 다른 지역',
+                      style: TextStyle(fontSize: statusHeight * 0.06),
+                    ),
                   ),
                 ],
-              )))
-        ],
-      ),
+              )))),
     );
   }
 }

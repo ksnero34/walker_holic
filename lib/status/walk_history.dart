@@ -36,7 +36,7 @@ class user_history {
 
   static Future<void> upload_server_walk(List<dynamic> input_data) async {
     try {
-      String url = 'http://211.219.250.41/input';
+      String url = 'http://211.219.250.41/input_walk_log';
       //print(input_data);
       var uri = Uri.parse(url);
       var data = {

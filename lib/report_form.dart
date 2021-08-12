@@ -1,8 +1,10 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:background_location/background_location.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:http/http.dart' as http;
 import 'package:walkerholic/main.dart';
 import 'package:image_picker/image_picker.dart';
@@ -49,7 +51,7 @@ class _report_formState extends State<report_form> {
 
   Future<void> upload_server(String title, String content) async {
     try {
-      String url = 'http://211.219.250.41/input';
+      String url = 'http://211.219.250.41/input_report_data';
       var uri = Uri.parse(url);
       //List<int> img_bytes = File(_imagee.path).readAsBytesSync();
       //String base64img = base64Encode(img_bytes);
@@ -74,10 +76,17 @@ class _report_formState extends State<report_form> {
       //   "longitude": userlocation_global.longitude.toString(),
       //   "date": DateTime.now().toString(),
       // });
+      BackgroundLocation.getLocationUpdates((_location) async {
+        userlocation_global = LatLng(_location.latitude, _location.longitude);
+      });
       var request = new http.MultipartRequest("POST", uri);
 
       request.fields['type'] = 'report';
       request.fields['title'] = title;
+      request.fields['content'] = content;
+      request.fields['latitude'] = userlocation_global.latitude.toString();
+      request.fields['longitude'] = userlocation_global.longitude.toString();
+      request.fields['date'] = DateTime.now().toString();
       //나머지 적기 테슽트후에
 
       request.files
