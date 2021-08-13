@@ -31,6 +31,15 @@ class user_history {
         DateTime.parse(key_val.getString(destination)).add(diff);
 
     key_val.setString(destination, amount_walk.toString());
+
+    //낮시간대 or 밤시간대 산책 횟수 가산
+    if ((end.hour >= 6) && (end.hour < 18))
+      key_val.setInt(
+          destination + '_낮', (key_val.getInt(destination + '_낮') + 1));
+    else
+      key_val.setInt(
+          destination + '_밤', (key_val.getInt(destination + '_밤') + 1));
+
     walked_data.clear();
   }
 

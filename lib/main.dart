@@ -95,6 +95,12 @@ class _MyHomePageState extends State<MyHomePage> {
       key_val.setString('시민공원', inittime);
       key_val.setString('유엔공원', inittime);
       key_val.setString('광안리', inittime);
+      key_val.setInt('시민공원_낮', 0);
+      key_val.setInt('시민공원_밤', 0);
+      key_val.setInt('유엔공원_낮', 0);
+      key_val.setInt('유엔공원_밤', 0);
+      key_val.setInt('광안리_낮', 0);
+      key_val.setInt('광안리_밤', 0);
     }
   }
 

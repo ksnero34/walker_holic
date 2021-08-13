@@ -18,6 +18,22 @@ class _badgeState extends State<badge> {
   String unitedn_history;
   String gwang_history;
 
+  List<String> gwang_badge = [
+    'assets/badge_gwang_black.png',
+    'assets/badge_gwang_black.png',
+    'assets/badge_gwang_black.png'
+  ];
+  List<String> simin_badge = [
+    'assets/badge_simin_black.png',
+    'assets/badge_simin_black.png',
+    'assets/badge_simin_black.png'
+  ];
+  List<String> unitedn_badge = [
+    'assets/badge_unitedn_black.png',
+    'assets/badge_unitedn_black.png',
+    'assets/badge_unitedn_black.png'
+  ];
+
   @override
   void initState() {
     // TODO: implement initState
@@ -51,6 +67,27 @@ class _badgeState extends State<badge> {
     // else
     gwang_history =
         DateFormat('Hms').format(DateTime.parse(key_val.getString('광안리')));
+
+    if (key_val.getInt('광안리_밤') >= 5)
+      gwang_badge[0] = 'assets/badge_gwang_night.png';
+    if (key_val.getInt('광안리_낮') >= 5)
+      gwang_badge[2] = 'assets/badge_gwang_day.png';
+    if ((key_val.getInt('광안리_밤') + key_val.getInt('광안리_낮')) >= 5)
+      gwang_badge[1] = 'assets/badge_gwang_gold.png';
+
+    if (key_val.getInt('시민공원_밤') >= 5)
+      gwang_badge[0] = 'assets/badge_simin_night.png';
+    if (key_val.getInt('시민공원_낮') >= 5)
+      gwang_badge[2] = 'assets/badge_simin_day.png';
+    if ((key_val.getInt('시민공원_밤') + key_val.getInt('시민공원_낮')) >= 5)
+      gwang_badge[1] = 'assets/badge_simin_gold.png';
+
+    if (key_val.getInt('유엔공원_밤') >= 5)
+      gwang_badge[0] = 'assets/badge_unitedn_night.png';
+    if (key_val.getInt('유엔공원_낮') >= 5)
+      gwang_badge[2] = 'assets/badge_unitedn_day.png';
+    if ((key_val.getInt('유엔공원_밤') + key_val.getInt('유엔공원_낮')) >= 5)
+      gwang_badge[1] = 'assets/badge_unitedn_gold.png';
   }
 
   @override
@@ -97,13 +134,31 @@ class _badgeState extends State<badge> {
       String title = '테스팅중';
       String content = '이스터에그 테스트중';
       if (badge == 'gwang_1') {
-        title = '광안리 산책길을 밤에 산책시 획득가능';
+        title = '광안리 산책길을 밤에 5회 이상 산책시 획득가능';
         content = '광안대교 야경 존멋 ㅎ.ㅎ';
       } else if (badge == 'gwang_2') {
         title = '광안리 산책길을 5회 이상 산책시 획득가능';
         content = '(ง •̀_•́)ง';
       } else if (badge == 'gwang_3') {
-        title = '광안리 산책길을 낮에 산책시 획득가능';
+        title = '광안리 산책길을 낮에 5회 이상 산책시 획득가능';
+        content = '산책도 좋지만 덥지 않나요..?';
+      } else if (badge == 'simin_1') {
+        title = '시민 공원을 밤에 5회 이상 산책시 획득가능';
+        content = '산책도 좋지만 덥지 않나요..?';
+      } else if (badge == 'simin_2') {
+        title = '시민 공원을 5회 이상 산책시 획득가능';
+        content = '산책도 좋지만 덥지 않나요..?';
+      } else if (badge == 'simin_3') {
+        title = '시민 공원을 낮에 5회 이상 산책시 획득가능';
+        content = '산책도 좋지만 덥지 않나요..?';
+      } else if (badge == 'unitedn_1') {
+        title = '유엔 공원을 밤에 5회 이상 산책시 획득가능';
+        content = '산책도 좋지만 덥지 않나요..?';
+      } else if (badge == 'unitedn_2') {
+        title = '유엔 공원을 5회 이상 산책시 획득가능';
+        content = '산책도 좋지만 덥지 않나요..?';
+      } else if (badge == 'unitedn_3') {
+        title = '유엔 공원을 낮에 5회 이상 산책시 획득가능';
         content = '산책도 좋지만 덥지 않나요..?';
       }
 
@@ -174,7 +229,7 @@ class _badgeState extends State<badge> {
                         child: SizedBox(
                           width: statusHeight * 0.18,
                           height: statusHeight * 0.18,
-                          child: Image.asset('assets/badge_gwang_black.png'),
+                          child: Image.asset(gwang_badge[0]),
                         ),
                         onTap: () {
                           showDialog(
@@ -196,7 +251,7 @@ class _badgeState extends State<badge> {
                         child: SizedBox(
                           width: statusHeight * 0.18,
                           height: statusHeight * 0.18,
-                          child: Image.asset('assets/badge_gwang_black.png'),
+                          child: Image.asset(gwang_badge[1]),
                         ),
                         onTap: () {
                           showDialog(
@@ -218,7 +273,7 @@ class _badgeState extends State<badge> {
                         child: SizedBox(
                           width: statusHeight * 0.18,
                           height: statusHeight * 0.18,
-                          child: Image.asset('assets/badge_gwang_black.png'),
+                          child: Image.asset(gwang_badge[2]),
                         ),
                         onTap: () {
                           showDialog(
@@ -267,7 +322,7 @@ class _badgeState extends State<badge> {
                         child: SizedBox(
                           width: statusHeight * 0.18,
                           height: statusHeight * 0.18,
-                          child: Image.asset('assets/badge_simin_black.png'),
+                          child: Image.asset(simin_badge[0]),
                         ),
                         onTap: () {},
                       ),
@@ -281,7 +336,7 @@ class _badgeState extends State<badge> {
                         child: SizedBox(
                           width: statusHeight * 0.18,
                           height: statusHeight * 0.18,
-                          child: Image.asset('assets/badge_simin_black.png'),
+                          child: Image.asset(simin_badge[1]),
                         ),
                         onTap: () {},
                       ),
@@ -295,7 +350,7 @@ class _badgeState extends State<badge> {
                         child: SizedBox(
                           width: statusHeight * 0.18,
                           height: statusHeight * 0.18,
-                          child: Image.asset('assets/badge_simin_black.png'),
+                          child: Image.asset(simin_badge[2]),
                         ),
                         onTap: () {},
                       ),
@@ -336,7 +391,7 @@ class _badgeState extends State<badge> {
                         child: SizedBox(
                           width: statusHeight * 0.18,
                           height: statusHeight * 0.18,
-                          child: Image.asset('assets/badge_unitedn_black.png'),
+                          child: Image.asset(unitedn_badge[0]),
                         ),
                         onTap: () {},
                       ),
@@ -350,7 +405,7 @@ class _badgeState extends State<badge> {
                         child: SizedBox(
                           width: statusHeight * 0.18,
                           height: statusHeight * 0.18,
-                          child: Image.asset('assets/badge_unitedn_black.png'),
+                          child: Image.asset(unitedn_badge[1]),
                         ),
                         onTap: () {},
                       ),
@@ -364,7 +419,7 @@ class _badgeState extends State<badge> {
                         child: SizedBox(
                           width: statusHeight * 0.18,
                           height: statusHeight * 0.18,
-                          child: Image.asset('assets/badge_unitedn_black.png'),
+                          child: Image.asset(unitedn_badge[2]),
                         ),
                         onTap: () {},
                       ),
