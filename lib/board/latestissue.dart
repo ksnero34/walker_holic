@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
 Future<List<issue>> fetchissues(http.Client client) async {
-  String url = 'http://211.219.250.41/notice';
+  String url = 'http://211.219.250.41/issue';
   final response = await client.get(Uri.parse(url));
   print(response.body);
   final utfdata = utf8.decode(response.bodyBytes);
