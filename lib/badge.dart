@@ -134,25 +134,25 @@ class _badgeState extends State<badge> {
       String title = '테스팅중';
       String content = '이스터에그 테스트중';
       if (badge == 'gwang_1') {
-        title = '광안리 산책길을 밤에 5회 이상 산책시 획득가능';
-        content = '광안대교 야경 존멋 ㅎ.ㅎ';
+        title = '광안리 산책길을 밤에 산책시 획득가능';
+        content = '광안대교 야경과 함께!';
       } else if (badge == 'gwang_2') {
         title = '광안리 산책길을 5회 이상 산책시 획득가능';
-        content = '(ง •̀_•́)ง';
+        content = '광안리 마스터(ง •̀_•́)ง';
       } else if (badge == 'gwang_3') {
-        title = '광안리 산책길을 낮에 5회 이상 산책시 획득가능';
-        content = '산책도 좋지만 덥지 않나요..?';
+        title = '광안리 산책길을 낮에 산책시 획득가능';
+        content = '시원한 바닷바람과 함께!';
       } else if (badge == 'simin_1') {
-        title = '시민 공원을 밤에 5회 이상 산책시 획득가능';
-        content = '산책도 좋지만 덥지 않나요..?';
+        title = '시민 공원을 밤에 산책시 획득가능';
+        content = '밤하늘 별과함께!';
       } else if (badge == 'simin_2') {
         title = '시민 공원을 5회 이상 산책시 획득가능';
-        content = '산책도 좋지만 덥지 않나요..?';
+        content = '당신이 진정한 부산시민...!';
       } else if (badge == 'simin_3') {
-        title = '시민 공원을 낮에 5회 이상 산책시 획득가능';
-        content = '산책도 좋지만 덥지 않나요..?';
+        title = '시민 공원을 낮에 산책시 획득가능';
+        content = '피크닉을 즐겨보세요(ㅇ_<)';
       } else if (badge == 'unitedn_1') {
-        title = '유엔 공원을 밤에 5회 이상 산책시 획득가능';
+        title = '유엔 공원을 밤에 산책시 획득가능';
         content = '산책도 좋지만 덥지 않나요..?';
       } else if (badge == 'unitedn_2') {
         title = '유엔 공원을 5회 이상 산책시 획득가능';
@@ -324,7 +324,15 @@ class _badgeState extends State<badge> {
                           height: statusHeight * 0.18,
                           child: Image.asset(simin_badge[0]),
                         ),
-                        onTap: () {},
+                        onTap: () {
+                          showDialog(
+                            context: context,
+                            //barrierDismissible: false,
+                            builder: (BuildContext context) {
+                              return badge_pressed(context, 'simin_1');
+                            },
+                          );
+                        },
                       ),
                     ),
                   ),
@@ -338,7 +346,15 @@ class _badgeState extends State<badge> {
                           height: statusHeight * 0.18,
                           child: Image.asset(simin_badge[1]),
                         ),
-                        onTap: () {},
+                        onTap: () {
+                          showDialog(
+                            context: context,
+                            //barrierDismissible: false,
+                            builder: (BuildContext context) {
+                              return badge_pressed(context, 'simin_2');
+                            },
+                          );
+                        },
                       ),
                     ),
                   ),
@@ -352,7 +368,15 @@ class _badgeState extends State<badge> {
                           height: statusHeight * 0.18,
                           child: Image.asset(simin_badge[2]),
                         ),
-                        onTap: () {},
+                        onTap: () {
+                          showDialog(
+                            context: context,
+                            //barrierDismissible: false,
+                            builder: (BuildContext context) {
+                              return badge_pressed(context, 'simin_3');
+                            },
+                          );
+                        },
                       ),
                     ),
                   ),
@@ -393,7 +417,15 @@ class _badgeState extends State<badge> {
                           height: statusHeight * 0.18,
                           child: Image.asset(unitedn_badge[0]),
                         ),
-                        onTap: () {},
+                        onTap: () {
+                          showDialog(
+                            context: context,
+                            //barrierDismissible: false,
+                            builder: (BuildContext context) {
+                              return badge_pressed(context, 'unitedn_1');
+                            },
+                          );
+                        },
                       ),
                     ),
                   ),
@@ -407,7 +439,15 @@ class _badgeState extends State<badge> {
                           height: statusHeight * 0.18,
                           child: Image.asset(unitedn_badge[1]),
                         ),
-                        onTap: () {},
+                        onTap: () {
+                          showDialog(
+                            context: context,
+                            //barrierDismissible: false,
+                            builder: (BuildContext context) {
+                              return badge_pressed(context, 'unitedn_2');
+                            },
+                          );
+                        },
                       ),
                     ),
                   ),
@@ -421,7 +461,15 @@ class _badgeState extends State<badge> {
                           height: statusHeight * 0.18,
                           child: Image.asset(unitedn_badge[2]),
                         ),
-                        onTap: () {},
+                        onTap: () {
+                          showDialog(
+                            context: context,
+                            //barrierDismissible: false,
+                            builder: (BuildContext context) {
+                              return badge_pressed(context, 'unitedn_3');
+                            },
+                          );
+                        },
                       ),
                     ),
                   ),

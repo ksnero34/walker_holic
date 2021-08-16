@@ -6,7 +6,7 @@ import 'package:http/http.dart' as http;
 Future<List<notice>> fetchnotice(http.Client client) async {
   String url = 'http://211.219.250.41/notice';
   final response = await client.get(Uri.parse(url));
-  print(response.body);
+  //print(response.body);
   final utfdata = utf8.decode(response.bodyBytes);
   return compute(parsenotices, utfdata);
 }
@@ -21,6 +21,7 @@ class notice {
   final int id;
   final String title;
   final String body;
+  bool is_handled;
 
   notice({this.id, this.title, this.body});
 
@@ -28,7 +29,7 @@ class notice {
     return notice(
       id: json['id'] as int,
       title: json['title'] as String,
-      body: json['url'] as String,
+      body: json['content'] as String,
     );
   }
 }
@@ -67,9 +68,9 @@ class noticeList extends StatelessWidget {
         return Material(
           child: ListTile(
             leading: Icon(Icons.notifications_active),
-            title: Text(notices[index].title),
-            subtitle: Text(notices[index].body),
-            //trailing: Text(notices[index].body),
+            title: Text(notices[notices.length - 1 - index].title),
+            subtitle: Text(notices[notices.length - 1 - index].body),
+            //trailing: Icon(Icons.alternate_email),
             onTap: () {
               showDialog(
                 context: context,
